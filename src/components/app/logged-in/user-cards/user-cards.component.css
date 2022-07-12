@@ -1,0 +1,221 @@
+.container {
+    max-width: 900px;
+    margin-top: 25px;
+    padding: 0 15px 0 15px;
+}
+
+#searchContainer {
+    display: flex;
+}
+
+#searchContainer>* {
+    margin-right: 10px;
+}
+
+#searchContainer>*:last-child {
+    margin-right: 0;
+}
+
+#searchInputContainer {
+    font-size: 14px;
+    width: 100%;
+}
+
+#searchOptionsHeader>h4 {
+    margin: 0;
+}
+
+#searchOptions {
+    margin: 15px 0 15px 0;
+    display: flex;
+}
+
+#searchOptions>div:first-of-type {
+    max-width: 15px;
+    cursor: pointer;
+    color: #547e55;
+    display: flex;
+}
+
+::ng-deep #searchOptions>div:first-of-type>fa-icon>svg {
+    transition: transform 0.25s ease-in-out;
+}
+
+#searchOptions>div:last-of-type {
+    width: 100%;
+    margin-left: 10px;
+}
+
+#searchOptions>div:last-of-type>h4 {
+    margin: 0;
+    user-select: none;
+}
+
+#searchOptionsHeader>fa-icon {
+    margin-right: 10px;
+}
+
+#searchOptionsContent {
+    display: flex;
+    justify-content: space-between;
+}
+
+#searchOptionsContent.row>* {
+    width: 50%;
+}
+
+#searchInputContainer>input {
+    border: 1px solid rgb(131, 199, 135);
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.search-option-content {
+    display: flex !important;
+    margin: 15px 0 15px 0;
+}
+
+.search-option-content>fa-icon {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.search-option>* {
+    display: block;
+    user-select: none;
+}
+
+.user-card {
+    border-radius: 15px;
+    border: solid 1px #e8e8e8;
+    transition: background-color 0.25s ease-in-out;
+    cursor: pointer;
+    margin: 15px 0 15px 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.user-card:hover {
+    background-color: #83c78727;
+}
+
+.user-info>div:first-of-type {
+    display: flex;
+    align-items: center;
+}
+
+.user-info>div:first-of-type>img {
+    max-width: 100px;
+    border-radius: 15px;
+}
+
+.user-info>div:first-of-type>div {
+    padding-left: 15px;
+}
+
+.user-info>div:first-of-type>div>h4 {
+    display: flex;
+}
+
+.user-info>div:first-of-type>div>h4>span {
+    font-size: 12px;
+    color: #83c787;
+}
+
+.user-info>div:last-of-type {
+    padding-top: 15px;
+}
+
+.user-actions {
+    margin-left: auto;
+}
+
+.other-search-option-number {
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    background: #fff4e0;
+    padding: 0 5px 0 5px;
+}
+
+.complete-icon-active {
+    cursor: pointer;
+    pointer-events: all;
+    color: #83c787;
+}
+
+.complete-icon-disabled {
+    pointer-events: none;
+    color: #c8c8c8;
+}
+
+#customInterestsTitle {
+    display: flex;
+    align-items: center;
+}
+
+#customInterestsTitle>h5 {
+    text-align: left;
+    width: 100%;
+    margin: 0;
+}
+
+#customInterestsTitle>button {
+    margin-left: auto;
+}
+
+#addInterestGroup {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+#addInterestGroup>fa-icon {
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+#newInterestInput {
+    border: 1px solid rgb(131, 199, 135);
+    padding: 5px;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.custom-interest {
+    border-radius: 10px;
+    background-color: #83c787;
+    padding: 5px;
+    margin: 0 5px 10px 0;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.custom-interest:hover {
+    background-color: #ff7474;
+    cursor: pointer;
+}
+
+.custom-interest:last-of-type {
+    margin-right: 0;
+}
+
+::ng-deep .dx-popup-wrapper>.dx-overlay-content {
+    box-shadow: 0 0 15px 2px #0000002e;
+    border-radius: 15px;
+}
+
+@media (max-width: 991px) {
+    #searchOptionsContent {
+        flex-wrap: wrap;
+    }
+
+    .user-actions>button>span {
+        display: none;
+    }
+}

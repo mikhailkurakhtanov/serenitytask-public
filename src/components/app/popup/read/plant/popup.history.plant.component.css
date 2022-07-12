@@ -1,0 +1,126 @@
+#plantHistoryProperties {
+  margin-top: 16px;
+}
+
+#plantHistoryProperties>div>p {
+  text-align: center;
+  font-weight: bold;
+  color: #547e55;
+}
+
+#plantHistoryProperties>hr {
+  padding: 0;
+  height: 0.25em;
+  color: gray;
+}
+
+.task-column {
+  max-width: 25%;
+}
+
+.status-column {
+  max-width: 15%;
+}
+
+.history-note>.description-column {
+  margin-right: 10px;
+}
+
+.history-note>.description-column>.row>.col:first-of-type {
+  max-width: 5%;
+  text-align: right;
+}
+
+.history-note>.description-column>.row>.col:last-of-type {
+  max-width: 95%;
+  text-align: left;
+}
+
+.history-note>hr {
+  padding: 0;
+  color: darkgray;
+}
+
+.history-note:last-of-type>hr {
+  display: none;
+}
+
+#chartIntervalSelectors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 15px;
+}
+
+#chartIntervalSelectors>button {
+  height: 25px;
+  padding: 0 15px;
+  display: none;
+}
+
+#chartIntervalSelectors>h4 {
+  padding: 0 15px 0 15px;
+  margin: 0;
+}
+
+#noPlantHistoryDiv {
+  padding: 15px 0 15px 0;
+}
+
+::ng-deep #chart {
+  height: 440px;
+}
+
+::ng-deep .tooltip-header {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #c5c5c5;
+}
+
+::ng-deep .tooltip-body {
+  width: 170px;
+}
+
+::ng-deep .tooltip-body .series-name {
+  font-weight: normal;
+  opacity: 0.6;
+  display: inline-block;
+  line-height: 1.5;
+  padding-right: 10px;
+  width: 126px;
+}
+
+::ng-deep .tooltip-body .value-text {
+  display: inline-block;
+  line-height: 1.5;
+  width: 30px;
+}
+
+::ng-deep .dxc-tooltip {
+  z-index: 5 !important;
+}
+
+:host ::ng-deep .tooltip-body>.value-text {
+  text-align: right;
+}
+
+:host ::ng-deep .dxc-item>g>text {
+  font-family: "Gilroy-Medium", serif !important;
+}
+
+:host ::ng-deep .dxc-arg-elements>text {
+  font-family: "Gilroy-Medium", serif !important;
+  cursor: pointer !important;
+}
+
+:host ::ng-deep .dxc-arg-elements>text:hover {
+  color: #83c787 !important;
+  font-weight: bold !important;
+}
+
+:host ::ng-deep .dxc-elements-axes-group>text,
+::ng-deep .dxc-val-elements>text {
+  font-family: "Gilroy-Medium", serif !important;
+}

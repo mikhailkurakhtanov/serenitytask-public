@@ -1,0 +1,29 @@
+<sorana-popup [width]="350" [visible]="isPopupVisible" [isCloseButtonVisible]="true"
+    [isTitleVisible]="true" [title]="'Report a problem'"
+    (isPopupShouldBeHidden)="isPopupShouldBeHidden.emit(true); refreshProblemReport();">
+    <div id="reportAProblemForm">
+        <div>
+            <p>Something went wrong? Let us know!</p>
+        </div>
+
+        <input #problemReportSubject [maxlength]="30" [(ngModel)]="problemReport.subject" placeholder="Subject">
+        <textarea #problemReportMessage [(ngModel)]="problemReport.message"
+            placeholder="Details about the bug"></textarea>
+        <div>
+            <button class="btn button" [disabled]="isButtonDisabled" [innerText]="buttonText"
+                (click)="createProblemReport()"></button>
+        </div>
+
+        <dx-tooltip position="left" [target]="problemReportSubject" [visible]="isSubjectErrorMessageVisible"
+            [closeOnOutsideClick]="true" (onHidden)="isSubjectErrorMessageVisible = false;">
+            <p>This field is required</p>
+        </dx-tooltip>
+        <dx-tooltip position="right" [target]="problemReportMessage" [visible]="isMessageErrorMessageVisible"
+            [closeOnOutsideClick]="true" (onHidden)="isMessageErrorMessageVisible = false;">
+            <p>This field is required</p>
+        </dx-tooltip>
+    </div>
+</sorana-popup>
+
+<sorana-toast-notification [width]="500" [visible]="isToastNotificationVisible" [content]="toastNotificationContent">
+</sorana-toast-notification>

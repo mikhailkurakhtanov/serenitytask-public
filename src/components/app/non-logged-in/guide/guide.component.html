@@ -1,0 +1,140 @@
+<sorana-popup [visible]="isPopupVisible" [width]="windowWidth > 1000 ? 750 : 350" [title]="'Guide'"
+    [isCloseButtonVisible]="true" (isPopupShouldBeHidden)="isPopupShouldBeHidden.emit()">
+    <div id="serenityTaskGuide" style="display: flex;">
+        <div id="guideMenu" *ngIf="windowWidth > 1000">
+            <button class="btn button" [ngClass]="{
+                    'selected-section': selectedSection === guideSectionBase.FirstStep,
+                    'not-selected-section': selectedSection !== guideSectionBase.FirstStep
+                }" (click)="selectSection(guideSectionBase.FirstStep)">First Step</button>
+            <button class="btn button" [ngClass]="{'
+                    selected-section': selectedSection === guideSectionBase.PlantManagement,
+                    'not-selected-section': selectedSection !== guideSectionBase.PlantManagement}"
+                (click)="selectSection(guideSectionBase.PlantManagement)">Plant
+                Management</button>
+            <button class="btn button" [ngClass]="{
+                'selected-section': selectedSection === guideSectionBase.TaskManagement,
+                'not-selected-section': selectedSection !== guideSectionBase.TaskManagement}"
+                (click)="selectSection(guideSectionBase.TaskManagement)">Task Management</button>
+            <button class="btn button" [ngClass]="{
+                'selected-section': selectedSection === guideSectionBase.SessionManagement,
+                'not-selected-section': selectedSection !== guideSectionBase.SessionManagement}"
+                (click)="selectSection(guideSectionBase.SessionManagement)">Session
+                Management</button>
+            <button class="btn button" [ngClass]="{
+                'selected-section': selectedSection === guideSectionBase.AccountManagement,
+                'not-selected-section': selectedSection !== guideSectionBase.AccountManagement}"
+                (click)="selectSection(guideSectionBase.AccountManagement)">Account
+                Management</button>
+            <button class="btn button" [ngClass]="{
+                'selected-section': selectedSection === guideSectionBase.ProfileManagement,
+                'not-selected-section': selectedSection !== guideSectionBase.ProfileManagement}"
+                (click)="selectSection(guideSectionBase.ProfileManagement)">Profile
+                Management</button>
+        </div>
+        <div id="guideContent">
+            <div *ngIf="selectedSection == guideSectionBase.FirstStep">
+                <h3>I. First step</h3>
+                <p>
+                    Hello! I see you can't wait to start using the app and take control of your time and tasks?
+                    Excellent! This user guide will help you get familiar with all the features of SerenitaTask in order
+                    to get the most out of the application.
+                </p>
+                <h5>Create an account</h5>
+                <p>
+                    Before you can start using the application, you need to create an account. To do this, click on the
+                    "Plant" button. That's right, the button to go to the account creation form is exactly what it is
+                    called, because you will have to grow your own plant by your own efforts, but more on that later!
+                </p>
+                <p>
+                    So, if you have a Google account, then click on the button with the Google logo and grant all the
+                    required permissions. In the future, you can unlink your account if necessary. In the case of manual
+                    registration, fill in all the required fields of the form and confirm the registration. An
+                    activation email will be sent to your email address immediately. Follow the link contained in the
+                    letter and cheers - now you are ready to log in to the system.
+                </p>
+                <h5>Authorization</h5>
+                <p>
+                    To enter the system, click on the "Grow" button to return to the process of developing your indoor
+                    leafy friend. If you previously registered with a Google account or linked it in your account
+                    settings, this will greatly simplify your login into the system. If you do not want to log in to the
+                    system every time you open the application, select the "Remember me" option.
+
+                    Now you are ready to start using the application!
+                </p>
+            </div>
+
+            <div *ngIf="selectedSection == guideSectionBase.PlantManagement">
+                <h3>II. Plant Management</h3>
+                <p>
+                    A plant is your progress visualization. It helps your track your effectivity and make a desicions to
+                    plan smart.
+                </p>
+                <h5>Create a plant</h5>
+                <p>
+                    To create a plant click on the Plant a seed button. Then select a type of a plant that you want to
+                    grow.
+                    Plant leveling means how many leaves can this type of plant grow.
+                </p>
+                <h5>Track your progress</h5>
+                <p>
+                    To see how your plant's experience change, click on the list icon below your plant.!
+                </p>
+            </div>
+
+            <div *ngIf="selectedSection == guideSectionBase.TaskManagement">
+                <h3>III. Task Management</h3>
+                <p>
+                    This section is not ready yet.
+                </p>
+            </div>
+
+            <div *ngIf="selectedSection == guideSectionBase.SessionManagement">
+                <h3>IV. Session Management</h3>
+                <p>
+                    This section is not ready yet.
+                </p>
+            </div>
+
+            <div *ngIf="selectedSection == guideSectionBase.AccountManagement">
+                <h3>V. Account Management</h3>
+                <p>
+                    This section is not ready yet.
+                </p>
+            </div>
+
+            <div *ngIf="selectedSection == guideSectionBase.ProfileManagement">
+                <h3>VI. Profile Management</h3>
+                <p>
+                    This section is not ready yet.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="windowWidth < 1000" style="text-align: right; padding-top: 15px;">
+        <button class="btn button" id="showGuideChaptersButton"
+            (click)="isMobileGuideMenuVisible = !isMobileGuideMenuVisible;">
+            <fa-icon size="lg" [icon]="menuIcon"></fa-icon>
+        </button>
+        <dx-popover target="#showGuideChaptersButton" position="left" [visible]="isMobileGuideMenuVisible"
+            (closeOnOutsideClick)="false" (onHidden)="isMobileGuideMenuVisible = false;" [width]="260">
+            <dxo-animation>
+                <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+                <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+            </dxo-animation>
+
+            <div id="guideMobileMenu">
+                <a class="dropdown-item" (click)="selectSection(guideSectionBase.FirstStep)">I. First Step</a>
+                <a class="dropdown-item" (click)="selectSection(guideSectionBase.PlantManagement)">II. Plant Management</a>
+                <a class="dropdown-item" (click)="selectSection(guideSectionBase.TaskManagement)">III. Task Management</a>
+                <a class="dropdown-item" (click)="selectSection(guideSectionBase.SessionManagement)">IV. Session
+                    Management</a>
+                <a class="dropdown-item" (click)="selectSection(guideSectionBase.AccountManagement)">V. Account
+                    Management</a>
+                <a class="dropdown-item" (click)="selectSection(guideSectionBase.ProfileManagement)">VI. Profile
+                    Management</a>
+            </div>
+        </dx-popover>
+    </div>
+
+</sorana-popup>

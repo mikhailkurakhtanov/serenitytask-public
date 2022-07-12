@@ -1,0 +1,48 @@
+<div id="calendar">
+    <ng-component
+        *ngIf="sessionsByInterval && sessionsByInterval.length > 0; then plannedSessions; else noPlannedSesions">
+    </ng-component>
+
+    <ng-template #plannedSessions>
+        <h5 id="calendarTaskInterval" [innerText]="taskIntervalName"></h5>
+        <div class="planned-session-info" *ngFor="let session of sessionsByInterval"
+            [ngStyle]="{'color': session.isSessionTimeNow ? 'black' : '#c8c8c8'}">
+            <p [innerText]="getSessionIntervalFormatted(session.startDate, session.endDate)"></p>
+            <p [innerText]="getSessionName(session)"></p>
+
+            <div class="planned-session-info-participants">
+                <img *ngIf="session.owner.id !== currentUser.id" [src]="session.owner.userDetails.avatar">
+                <div *ngFor="let participant of session.participants">
+                    <img *ngIf="participant.id !== currentUser.id" [src]="participant.userDetails.avatar">
+                </div>
+            </div>
+
+            <div class="planned-session-actions" *ngIf="session.ownerId == currentUser.id; else participantActions">
+                <button [disabled]="!session.isSessionReadyToStart || session.isUserJoined"
+                    [innerText]="session.isUserJoined ? 'Joined' : 'Join'"
+                    (click)="joinSession(session.id)">Join</button>
+                <button (click)="cancelSession(session.id)">Cancel</button>
+            </div>
+
+            <ng-template #participantActions>
+                <div class="planned-session-actions">
+                    <button [disabled]="!session.isSessionReadyToStart || session.isUserJoined"
+                        [innerText]="session.isUserJoined ? 'Joined' : 'Join'"
+                        (click)="joinSession(session.id)"></button>
+                    <button (click)="leaveSession(session.id)">Leave</button>
+                </div>
+            </ng-template>
+        </div>
+    </ng-template>
+
+    <ng-template #noPlannedSesions>
+        <div id="noPlannedSessions">
+            <fa-icon size="lg" [icon]="plannerIcon"></fa-icon>
+            <h5 id="noPlannedSessionsMessage">There are no scheduled sessions</h5>
+        </div>
+    </ng-template>
+</div>
+
+<sorana-simple-popup [title]="sessionErrorTitle" [content]="sessionErrorContent" [visible]="isSessionErrorVisible"
+    [buttonType]="soranaPopupButtonTypeBase.Read" (isPopupShouldBeHidden)="isSessionErrorVisible = false;">
+</sorana-simple-popup>

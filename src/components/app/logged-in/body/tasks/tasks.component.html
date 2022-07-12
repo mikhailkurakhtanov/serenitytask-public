@@ -1,0 +1,177 @@
+<div *ngIf="isComponentLoaded; else loadingAnimation">
+  <div id="taskActionsContainer">
+    <button id="showAddTaskFormButton" class="btn button" [disabled]="currentTaskInterval === taskIntervalBase.Overdue"
+      [@changeShowAddTaskFormButtonState]="showAddTaskFormButtonState" (click)="changeAddTaskPanelState()"
+      (mousedown)="showAddTaskFormButtonState = true;" (mouseup)="showAddTaskFormButtonState = false;"
+      (mouseleave)="showAddTaskFormButtonState = false;">
+      <fa-icon [icon]="addTaskIcon"></fa-icon>
+    </button>
+    <div id="searchContainer">
+      <input #searchInput [(ngModel)]="searchQuery" type="text" id="searchInput" name="search-bar"
+        placeholder="Search...">
+      <button class="btn btn-light search-btn" type="button">
+        <fa-icon [icon]="searchIcon"></fa-icon>
+      </button>
+    </div>
+  </div>
+
+  <div [hidden]="!isNewTaskInputGroupVisible" class="newTask" [@changeAddTaskPanelState]="addTaskPanelState">
+    <fa-icon size="lg" [icon]="priorityIcon"></fa-icon>
+    <fa-icon size="lg" [icon]="uncompletedTaskIcon"></fa-icon>
+    <input #newTaskName id="newTaskInput" placeholder="Type task's name here..."
+      (keyup.enter)="createTask(newTaskName.value)" (keyup.escape)="newTaskName.value = ''; changeAddTaskPanelState()">
+    <fa-icon size="lg" [icon]="saveTaskIcon" [hidden]="windowWidth > 991"
+      [ngStyle]="{'color': newTaskName.value.length > 3 ? '#547e55' : '#c8c8c8'}"
+      (click)="createTask(newTaskName.value)">
+    </fa-icon>
+  </div>
+
+  <section class="task" *ngFor="let task of tasksByInterval; index as index" [@taskState]="task.state"
+    [@changeTaskPaddingState]="task.isDetailsVisible" [ngClass]="{'task-details-hidden': !task.isDetailsVisible}">
+    <div [ngStyle]="{'display': searchQuery.length == 0 ? 'flex'
+                                    : task.name.indexOf(searchQuery) >= 0 ? 'flex' : 'none',
+                       'margin-bottom': windowWidth >= 1000 && task.isSubtasksVisible ? '15px' : 0}">
+      <fa-icon size="lg" class="task-left-icon" [icon]="task.priorityIconState" (click)="changePriority(index)"
+        [ngStyle]="task.priority === 1 ? {'color': '#83c787' } : {'color': 'lightgray'}">
+      </fa-icon>
+      <fa-icon size="lg" class="task-left-icon" (click)="completeTask(index)" [icon]="task.taskIconState"
+        [@deletingTaskProcess]="task.deleteAnimation">
+      </fa-icon>
+      <div #taskContent id="taskContent_{{task.id}}" class="task-name-and-properties"
+        [ngClass]="{'task-name-and-properties-close-button': task.isDetailsVisible && windowWidth < 1000}">
+        <textarea #taskName class="task-name" rows="1" [(ngModel)]="task.name" [readonly]="true"
+          (window:resize)="applyTextareaStyling(this)" (keyup)="applyTextareaStyling(this)"
+          (keyup.escape)="updateTask(task); taskName.blur()" (keydown.enter)="$event.preventDefault(); taskName.blur()"
+          (mousedown)="task.isDetailsVisible = true; dragTaskProperties(taskProperties, taskContent, taskDetails, task.isDetailsVisible)"></textarea>
+
+        <div class="task-details-visibility-button" [hidden]="!task.isDetailsVisible">
+          <fa-icon size="lg" [icon]="closeIcon"
+            (click)="task.isDetailsVisible = false; dragTaskProperties(taskProperties, taskContent, taskDetails, task.isDetailsVisible)">
+          </fa-icon>
+        </div>
+
+        <div #taskProperties id="taskProperties_{{task.id}}" class="task-properties"
+          [ngStyle]="{'justify-content': !task.isDetailsVisible && windowWidth < 1000 ? 'left' : 'center'}">
+          <span #taskDate class="task-property" [hidden]="!task.date && !task.isDetailsVisible"
+            (click)="dxDatePicker.instance.open()">
+            <span class="task-property-content"
+              [ngClass]="{'task-overdue-label': task.interval === taskIntervalBase.Overdue}"
+              [ngStyle]="{'color': task.interval === taskIntervalBase.Overdue ? '#f44336' : !task.date ? '#c8c8c8' : 'black'}"
+              (click)="dxDatePicker.instance.open()">
+              <fa-icon class="task-property-icon" [icon]="dateIcon"
+                [ngStyle]="{'color': task.date ? '#83c787' : '#c8c8c8'}"></fa-icon>&nbsp;{{task.dynamicDate}}
+            </span>
+            <div class="dx-field-value">
+              <dx-date-box #dxDatePicker type="date" name="dxDatePicker_{{task.id}}" [ngModel]="task.date"
+                [min]="currentDate" [max]="task.deadline"
+                (onOpened)="applyDatePickerCustomization(dxDatePicker, task.id); taskDate.style.color = '#83c787'; taskDate.style.fontWeight = 'bold'"
+                (onClosed)="taskDate.style.color = 'black'; taskDate.style.fontWeight = 'normal'"
+                (ngModelChange)="applyTaskDateChanges($event, index)">
+              </dx-date-box>
+            </div>
+
+            <input #datePickerMobile type="date" style="display: none;" [ngModel]="task.date"
+              (ngModelChange)="applyTaskDateChanges(datePickerMobile.value, index)">
+          </span>
+
+          <span #taskDeadline class="task-property" [hidden]="!task.deadline && !task.isDetailsVisible"
+            (click)="dxDeadlinePicker.instance.open()">
+            <span class="task-property-content" [ngStyle]="{'color': task.deadline ? 'black' : '#c8c8c8'}">
+              <fa-icon class="task-property-icon" [icon]="deadlineIcon"
+                [ngStyle]="{'color': task.deadline ? '#83c787' : '#c8c8c8'}"></fa-icon>&nbsp;{{task.dynamicDeadline}}
+            </span>
+            <div class="dx-field-value">
+              <dx-date-box #dxDeadlinePicker type="date" name="dxDeadlinePicker_{{task.id}}" [(ngModel)]="task.deadline"
+                [min]="task.date ? task.date : currentDate"
+                (onOpened)="taskDeadline.style.color = '#83c787'; taskDeadline.style.fontWeight = 'bold'"
+                (onClosed)="taskDeadline.style.color = 'black'; taskDeadline.style.fontWeight = 'normal'"
+                (ngModelChange)="updateTask(task)">
+              </dx-date-box>
+            </div>
+          </span>
+
+          <span #taskTimer class="task-property task-timer-property"
+            [hidden]="!task.trackedTime && !task.isDetailsVisible" (click)="applyTaskToTimer(task)">
+            <span class="task-property-content" [ngStyle]="{'color': task.trackedTime ? 'black' : '#c8c8c8'}">
+              <fa-icon class="task-property-icon" [icon]="timerIcon"
+                [ngStyle]="{'color': task.trackedTime ? '#83c787' : '#c8c8c8'}"></fa-icon>
+              {{task.trackedTime ? &nbsp; + task.trackedTime + ' min' : ' Track time'}}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div #taskDetails id="taskDetails_{{task.id}}" class="task-details" [hidden]="!task.isDetailsVisible">
+
+      <div class="task-subtasks">
+        <div>
+          <p>Subtasks</p>
+          <fa-icon size="1x" [icon]="task.isAddSubtaskInputVisible ? hideAddSubtaskPanelIcon : showAddSubtaskPanelIcon"
+            style="color: #547e55; margin-left: 10px;"
+            (click)="task.isAddSubtaskInputVisible = !task.isAddSubtaskInputVisible;"></fa-icon>
+        </div>
+        <div class="new-subtask" [@changeAddSubtaskPanelState]="task.isAddSubtaskInputVisible">
+          <fa-icon size="lg" [icon]="uncompletedTaskIcon"></fa-icon>
+          <input #newSubtaskName class="new-subtask-input" placeholder="Type subtask's name here..."
+            (keyup.enter)="createTask(newSubtaskName.value, task.id); newSubtaskName.value = '';"
+            (keyup.escape)="newSubtaskName.value = ''; task.isAddSubtaskInputVisible = false;">
+          <fa-icon size="lg" [icon]="saveTaskIcon" [hidden]="windowWidth > 991"
+            [ngStyle]="{'color': newSubtaskName.value.length > 3 ? '#547e55' : '#c8c8c8'}"
+            (click)="createTask(newSubtaskName.value, task.id); newSubtaskName.value = '';">
+          </fa-icon>
+        </div>
+        <div class="task-subtask" *ngFor="let taskSubtask of task.subtasks; index as subtaskIndex"
+          [@taskState]="taskSubtask.state">
+          <fa-icon size="lg" class="task-left-icon" (click)="completeTask(index, subtaskIndex)"
+            [icon]="taskSubtask.taskIconState" [@deletingTaskProcess]="taskSubtask.deleteAnimation">
+          </fa-icon>
+          <textarea #subtaskName class="task-name" rows="1" [(ngModel)]="taskSubtask.name" [readonly]="true"
+            (window:resize)="applyTextareaStyling(this)" (keyup)="applyTextareaStyling(this)"
+            (keyup.escape)="updateTask(taskSubtask); subtaskName.blur()"
+            (keydown.enter)="$event.preventDefault(); subtaskName.blur()"></textarea>
+        </div>
+      </div>
+
+      <div class="task-files">
+        <div>
+          <p>Files</p>
+          <label for="uploadFileInput_{{task.id}}">
+            <fa-icon size="1x" [icon]="uploadTaskFileIcon" style="color: #547e55; margin-left: 10px;"></fa-icon>
+          </label>
+          <input id="uploadFileInput_{{task.id}}" class="upload-file-input" type="file"
+            (change)="uploadFile($event, task, task.id, index)">
+        </div>
+
+        <div class="task-file" *ngFor="let taskFile of task.files; index as fileIndex">
+          <fa-icon [icon]="getTaskFileIcon(taskFile.extension)" size="lg"
+            style="color: rgb(131, 199, 135); width: 20px; text-align: center;">
+          </fa-icon>
+          <div class="task-file-details">
+            <p class="task-file-name">{{taskFile.name}}</p>
+            <p class="task-file-size">&nbsp;({{taskFile.size}} MB)</p>
+          </div>
+          <div class="task-file-actions">
+            <div class="task-file-action" [@changeTaskFileActionState]="taskFile.isDownloadButtonClicked"
+              (click)="taskFile.isDownloadButtonClicked = true; downloadFile(taskFile.id)">
+              <fa-icon [icon]="downloadTaskFileIcon" size="1x"></fa-icon>
+            </div>
+            <div class="task-file-action" [@changeTaskFileActionState]="taskFile.isDeleteButtonClicked"
+              (click)="taskFile.isDeleteButtonClicked = true; deleteFile(taskFile.id, fileIndex, index)">
+              <fa-icon [icon]="deleteTaskFileIcon" size="1x"></fa-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #loadingAnimation>
+  <div class="loading-animation">
+    <img src="assets/img/animations/loading.gif" alt="">
+  </div>
+</ng-template>
+
+<sorana-toast-notification [visible]="isToastNotificationVisible" [content]="toastNotificationContent">
+</sorana-toast-notification>

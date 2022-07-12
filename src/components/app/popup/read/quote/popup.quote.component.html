@@ -1,0 +1,13 @@
+<dx-popup height="auto" [width]="380" [visible]="isPopupQuoteVisible" [showTitle]="false" [showCloseButton]="false"
+  (onShown)="playNotification()">
+  <div #quoteContent id="quote" class="login-clean text-center" *ngIf="quote">
+    <h3>Your plant is dead</h3>
+    <div id="quoteContent" class="mb-3">
+      <p>{{quote.context}}</p>
+      <hr>
+      <p>{{quote.authorName}}</p>
+    </div>
+    <button class="btn button" (click)="showCreatePlantForm()">Plant a new seed</button>
+    <button class="btn button" (click)="isPopupQuoteVisible = false;">Not now</button>
+  </div>
+</dx-popup>

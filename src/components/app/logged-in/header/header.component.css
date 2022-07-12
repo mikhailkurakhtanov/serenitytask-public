@@ -1,0 +1,82 @@
+#navbar {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#logoAndMenu {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#logoAndMenu>img {
+  width: 50px;
+}
+
+#logoAndMenu>p {
+  margin: 0 0 0 15px;
+}
+
+#additionsAndUserMenu {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+#additionsAndUserMenu>div:first-of-type {
+  height: 100%;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+#additionsAndUserMenu>#reportABugButton {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+#userAvatarAndName {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+#userAvatarAndName:hover>p {
+  font-weight: bold;
+  color: #547e55;
+}
+
+#userAvatarAndName>img {
+  width: 25px;
+  margin-right: 5px;
+  padding: 0;
+  border-radius: 5px;
+}
+
+#userMenuContent {
+  text-align: center;
+  font-size: 16px;
+}
+
+#userMenuContent>.dropdown-item {
+  border-radius: 5px !important;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+#userMenuContent>.dropdown-item:hover {
+  background: #fff4e0 !important;
+}
+
+#userMenuContent>.dropdown-item:active {
+  background: #83c787 !important;
+}
+
+.active {
+  font-weight: bold;
+  color: #547e55;
+}

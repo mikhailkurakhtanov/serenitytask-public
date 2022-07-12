@@ -1,0 +1,298 @@
+#timerWidget>div {
+    display: flex;
+}
+
+#timerModeSettings,
+#timerTypeSettings {
+    display: flex;
+    align-items: center;
+    margin: 15px 0 15px 0;
+}
+
+#timerModeSettings>h5,
+#timerTypeSettings>h5 {
+    margin: 0;
+}
+
+.timer-button-group {
+    display: flex;
+    justify-content: end;
+    margin-left: 15px;
+    width: 100%;
+}
+
+.timer-button-group>button:first-of-type {
+    margin-right: 15px;
+}
+
+#timerModeSettings>fa-icon,
+#timerTypeSettings>fa-icon {
+    cursor: pointer;
+    color: #c8c8c8;
+    margin-left: auto;
+    padding-left: 15px;
+    transition: color 0.25s ease-in-out;
+}
+
+#timerModeSettings>fa-icon:hover,
+#timerTypeSettings>fa-icon:hover {
+    color: #547e55;
+}
+
+#taskNotSelectedError {
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+
+#taskNotSelectedError>h5 {
+    margin: 0;
+}
+
+#taskNotSelectedError>fa-icon {
+    padding-right: 15px;
+    color: #547e55;
+}
+
+#taskNotSelectedError>fa-icon:last-of-type {
+    margin-left: auto;
+    color: #c8c8c8;
+    cursor: pointer;
+    transition: color 0.25s ease-in-out;
+}
+
+#taskNotSelectedError>fa-icon:last-of-type:hover {
+    color: #547e55;
+}
+
+.task-by-query {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.task-by-query>p {
+    width: 100%;
+    text-align: left;
+}
+
+.task-by-query:last-of-type {
+    margin-bottom: 0;
+}
+
+#timerActivity {
+    padding-left: 15px;
+}
+
+#timerActivity>div {
+    padding-bottom: 15px;
+}
+
+::ng-deep #timerActivity>div>fa-icon {
+    color: #83c787;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+#noSelectedTaskForSessionError {
+    margin: 0;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+#timerHeader {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+#timerHeader>h4 {
+    width: 100%;
+    text-align: left;
+    margin: 0;
+}
+
+#timerHeader>fa-icon {
+    color: #83c787;
+    transition: color 0.25s ease-in-out, transform 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+#timerHeader>fa-icon:hover {
+    color: #547e55;
+    transform: scale(1.1);
+}
+
+#timerEngine {
+    text-align: center;
+    display: inline-block;
+}
+
+#timerSwitch {
+    border-radius: 15px;
+    border: 1px solid #83c787;
+    display: inline-flex;
+    padding: 10px;
+}
+
+.timer-switch-mobile {
+    transform: scale(1.25);
+    margin-top: 15px;
+}
+
+.timer-number {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+.timer-number:not(:first-of-type) {
+    margin-left: 5px;
+}
+
+.timer-number>h3 {
+    margin: 0;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-number>h3>span {
+    font-size: 12px;
+    color: #000000bf;
+}
+
+.timer-number>div {
+    display: grid;
+    margin-left: 5px;
+}
+
+.timer-number>div>fa-icon {
+    cursor: pointer;
+}
+
+.timer-switch-icon-active {
+    pointer-events: all;
+    color: #83c787;
+}
+
+.timer-switch-icon-disabled {
+    pointer-events: none;
+    color: #c8c8c8;
+}
+
+.timer-buttons {
+    margin-top: 15px;
+}
+
+.timer-buttons>button:not(:first-of-type) {
+    margin-left: 10px;
+}
+
+#timerSessionParticipants>p {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+#timerSessionParticipants>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0 15px 0;
+}
+
+#timerSessionParticipants>div>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+::ng-deep #timerSessionParticipants>div>div>div>fa-icon {
+    position: absolute;
+    color: white;
+    margin-left: 15px;
+    margin-top: -5px;
+}
+
+#timerSessionParticipants>div>div>div>img {
+    margin-right: 10px;
+    border-radius: 5px;
+    width: 35px;
+}
+
+#timerSessionsParticipants>p {
+    padding-bottom: 15px;
+    margin: 0;
+    text-align: center;
+    color: #c8c8c8;
+}
+
+#showTimerButton {
+    position: fixed;
+    bottom: 75px;
+}
+
+#taskNameQueryForm {
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+    border-color: #83c787;
+}
+
+#taskNameQueryForm>input {
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    overflow: hidden;
+    flex-wrap: nowrap;
+    height: 35px;
+    border: 1px solid #83c787;
+}
+
+#taskNameQueryForm>button {
+    margin-left: 10px;
+    height: 35px;
+}
+
+#timerWidget,
+#taskNotSelectedError {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 15px;
+    border: 1px solid #8dcc91;
+    width: 100%;
+}
+
+::ng-deep #taskNameQueryForm>button>fa-icon {
+    width: 20px;
+}
+
+@media (max-width: 999px) {
+
+    #timerWidget,
+    #taskNotSelectedError {
+        border: none;
+    }
+
+    #timerWidget>div:last-of-type {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .timer-buttons {
+        margin: 25px 0 15px 0;
+    }
+
+    #timerWidget>div:last-of-type>#timerActivity {
+        width: 100%;
+        padding: 15px;
+        margin: 15px;
+    }
+
+    #timerWidget>div:last-of-type>#timerActivity>div:first-of-type {
+        text-align: center;
+    }
+}

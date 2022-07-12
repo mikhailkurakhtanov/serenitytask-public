@@ -1,0 +1,75 @@
+#leftSideMenu {
+    width: 100% !important;
+}
+
+#workspaceMenu_tasks>* {
+    color: #547e55;
+}
+
+#workspaceMenu_tasks>button>fa-layers>fa-icon> ::ng-deep svg {
+    width: 1em;
+}
+
+#workspaceMenu_tasks>button {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+    text-align: left;
+    border: none !important;
+    border-radius: 10px !important;
+}
+
+#workspaceMenu_tasks>button:hover {
+    background: #83c787 !important;
+    color: white !important;
+}
+
+#workspaceMenu_tasks>button:first-of-type {
+    margin-top: 0;
+}
+
+#workspaceMenu_tasks>button>span {
+    margin-left: 10px;
+}
+
+#workspaceMenu_tasks>button>span:first-of-type {
+    width: 100%;
+}
+
+button.selected {
+    color: white !important;
+    background: #83c787 !important;
+}
+
+button.selected>fa-layers>fa-icon {
+    color: white;
+}
+
+#overdueTasksButton>fa-layers> ::ng-deep fa-layers-text {
+    color: orange;
+}
+
+#overdueTasksButton.selected {
+    color: white;
+}
+
+button.selected>fa-layers> ::ng-deep fa-layers-text {
+    color: #547e55 !important;
+}
+
+button.selected>span:last-of-type {
+    color: white;
+}
+
+::ng-deep .fa-layers-text {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+::ng-deep fa-layers-text {
+    color: white;
+}
+
+::ng-deep .fa-layers svg.svg-inline--fa {
+    position: unset;
+}

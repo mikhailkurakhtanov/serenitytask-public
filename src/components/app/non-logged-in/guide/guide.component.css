@@ -1,0 +1,63 @@
+#serenityTaskGuide {
+    height: 370px;
+}
+
+#guideMenu {
+    width: 250px;
+}
+
+#guideMenu>button {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#guideContent {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+#guideContent>div>h3 {
+    padding-bottom: 15px;
+}
+
+#guideContent>div>h5 {
+    padding: 15px 0 15px 0;
+}
+
+#guideContent>div>h3,
+#guideContent>div>h5,
+#guideContent>div>p {
+    margin: 0;
+}
+
+.selected-section {
+    background-color: #83c787 !important;
+}
+
+.not-selected-section {
+    opacity: 0.5 !important;
+}
+
+#guideMobileMenu {
+    text-align: left;
+    font-size: 16px;
+}
+
+#guideMobileMenu>.dropdown-item {
+    border-radius: 5px !important;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+#guideMobileMenu>.dropdown-item:hover {
+    background: #fff4e0 !important;
+}
+
+#guideMobileMenu>.dropdown-item:active {
+    background: #83c787 !important;
+}
+
+::ng-deep .dx-popup-normal {
+    border-radius: 15px !important;
+}

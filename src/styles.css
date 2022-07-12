@@ -1,0 +1,140 @@
+p {
+  font-size: 16px;
+  margin-bottom: 0 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #547e55;
+}
+
+a {
+  cursor: pointer;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.popup-content {
+  margin-bottom: 0;
+}
+
+.not-available-text {
+  color: #a4a4a4;
+}
+
+.button {
+  color: white !important;
+  border-radius: 10px !important;
+  background: #83c787 !important;
+  font-weight: bold !important;
+  transition: all 1s linear;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  line-height: normal !important;
+}
+
+.btn:active,
+.btn:focus,
+.form-check-input:active,
+.form-check-input:focus {
+  border-color: rgb(131, 199, 135) !important;
+  box-shadow: 0 0 0 0.2rem #C2EDC3FF !important;
+}
+
+.form-check-input {
+  border-color: #83c787 !important;
+}
+
+.form-check-input:checked {
+  opacity: inherit !important;
+  background-color: #83c787 !important;
+}
+
+.login-clean {
+  background: rgba(255, 255, 255, 0);
+}
+
+.form-header-icon {
+  width: 75px;
+  padding-bottom: 15px;
+}
+
+.form-control {
+  background: transparent !important;
+  text-align: left;
+}
+
+.form-check {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.loading-animation {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.loading-animation>img {
+  width: 50px;
+  height: auto;
+  vertical-align: middle;
+}
+
+#googleOAuthButton {
+  display: none;
+}
+
+.sorana-popup-overlay-wrapper {
+  z-index: 1;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  transform: translate(0px, 0px);
+  transition: all 0s ease 0s;
+  overflow: visible;
+  backdrop-filter: blur(2px);
+}
+
+.centered-vertically {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+::selection {
+  background: rgb(131, 199, 135);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgb(131, 199, 135);
+  color: white;
+}
+
+@media all and (max-width: 991px) {
+  .loading-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

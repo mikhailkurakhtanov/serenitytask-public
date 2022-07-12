@@ -1,0 +1,191 @@
+<div id="timerWidget" *ngIf="currentTask || activeSession; else taskNotSelectedError">
+    <div id="timerHeader" *ngIf="timer">
+        <h4>Timer</h4>
+        <fa-icon size="lg" [icon]="settingsIcon"
+            [ngStyle]="{'pointer-events': timer.isActive && timer.isPaused ? 'none' : 'all'}"
+            (click)="isTimerSettingsVisible = !isTimerSettingsVisible">
+        </fa-icon>
+    </div>
+
+    <div [ngClass]="{'centered-vertically': windowWidth < 1000}">
+        <div id="timer" *ngIf="timer">
+            <div id="timerSessionParticipants" *ngIf="activeSession">
+                <div *ngIf="activeSessionMembers">
+                    <div id="sessionMember_{{sessionMember.userId}}" *ngFor="let sessionMember of activeSessionMembers"
+                        style="cursor: pointer;"
+                        (click)="sessionMember.isActivityDetailsVisible = !sessionMember.isActivityDetailsVisible">
+                        <p *ngIf="sessionMember.reconnectionTimeout < 15"
+                            style="position: absolute; color: white; margin-right: 10px; z-index: 1;"
+                            [innerText]="sessionMember.reconnectionTimeout"></p>
+                        <div
+                            [ngStyle]="{'filter': sessionMember.reconnectionTimeout < 15 ? 'brightness(0.5)' : 'none'}">
+                            <fa-icon *ngIf="sessionMember.isReady && !timer?.isActive" size="sm"
+                                [icon]="sessionMemberIsReadyIcon"></fa-icon>
+                            <img [src]="sessionMember.avatar"
+                                [ngStyle]="{'opacity': sessionMember.isJoined ? '1' : '.25'}">
+                        </div>
+
+                        <dx-popover target="#sessionMember_{{sessionMember.userId}}" position="top"
+                            [visible]="sessionMember.isActivityDetailsVisible"
+                            (onHidden)="sessionMember.isActivityDetailsVisible = false;">
+                            <div>
+                                <p style="text-align: center; padding-bottom: 15px; margin: 0; font-weight: bold;"
+                                    [innerText]="sessionMember.name"></p>
+                                <p style="text-align: left; margin: 0;">Task: {{sessionMember.taskName}}</p>
+                            </div>
+                        </dx-popover>
+                    </div>
+                </div>
+
+                <p *ngIf="!areAllSessionMembersReady()">Waiting for participants...</p>
+            </div>
+
+            <div id="timerEngine">
+                <div #timerSwitch id="timerSwitch" [ngClass]="{'timer-switch-mobile': windowWidth < 1000}">
+                    <div class="timer-number">
+                        <h3>{{timer.hours}}<span>&nbsp;H</span></h3>
+                        <div>
+                            <fa-icon size="1x" [icon]="taskTimerUpIcon"
+                                [ngClass]="{'timer-switch-icon-active': !timer.isActive && timerSettings.type === timerTypeBase.Manual,
+                                            'timer-switch-icon-disabled': timer.isActive || timerSettings.type === timerTypeBase.Pomodoro || activeSession}"
+                                (click)="timer.addHours()"></fa-icon>
+                            <fa-icon size="1x" [icon]="taskTimerDownIcon"
+                                [ngClass]="{'timer-switch-icon-active': !timer.isActive && timerSettings.type === timerTypeBase.Manual,
+                                            'timer-switch-icon-disabled': timer.isActive || timerSettings.type === timerTypeBase.Pomodoro || activeSession}"
+                                (click)="timer.decreaseHours()"></fa-icon>
+                        </div>
+                    </div>
+
+                    <div class="timer-number">
+                        <h3>{{timer.minutes < 10 ? '0' : '' }}{{timer.minutes}}<span>&nbsp;M</span></h3>
+                        <div>
+                            <fa-icon size="1x" [icon]="taskTimerUpIcon"
+                                [ngClass]="{'timer-switch-icon-active': !timer.isActive && timerSettings.type === timerTypeBase.Manual,
+                                            'timer-switch-icon-disabled': timer.isActive || timerSettings.type === timerTypeBase.Pomodoro || activeSession}"
+                                (click)="timer.addMinutes()"></fa-icon>
+                            <fa-icon size="1x" [icon]="taskTimerDownIcon"
+                                [ngClass]="{'timer-switch-icon-active': !timer.isActive && timerSettings.type === timerTypeBase.Manual,
+                                            'timer-switch-icon-disabled': timer.isActive || timerSettings.type === timerTypeBase.Pomodoro || activeSession}"
+                                (click)="timer.decreaseMinutes()"></fa-icon>
+                        </div>
+                    </div>
+
+                    <div class="timer-number">
+                        <h3>{{timer.seconds < 10 ? '0' : '' }}{{timer.seconds}}<span>&nbsp;S</span></h3>
+                    </div>
+                </div>
+
+                <div class="timer-buttons" *ngIf="!activeSession; else timerButtonsForSession">
+                    <button class="btn button" [disabled]="isStartButtonDisabled()"
+                        (click)="startTimer()">Start</button>
+                    <button class="btn button" [disabled]="!timer.isActive || timer.isPaused"
+                        (click)="timer.pause()">Pause</button>
+                    <button class="btn button" [disabled]="!timer.isActive" (click)="timer.stop()">Stop</button>
+                </div>
+
+                <ng-template #timerButtonsForSession>
+                    <div class="timer-buttons"
+                        *ngIf="activeSession?.ownerId === currentUserId; else participantButtons">
+                        <button *ngIf="!timer?.isActive" #setReadyStatusButton class="btn button"
+                            [disabled]="!currentTask"
+                            [innerText]="getSessionMember(currentUserId)?.isReady ? 'Not ready' : 'Ready'"
+                            (click)="setReadyStatusInSession(setReadyStatusButton)"></button>
+                        <button class="btn button" [disabled]="!timer.isActive"
+                            (click)="stopSessionTimer()">Stop</button>
+                    </div>
+                    <ng-template #participantButtons>
+                        <div *ngIf="!timer?.isActive" class="timer-buttons">
+                            <button #setReadyStatusButton class="btn button" [disabled]="!currentTask"
+                                [innerText]="getSessionMember(this.currentUserId)?.isReady ? 'Not ready' : 'Ready'"
+                                (click)="setReadyStatusInSession(setReadyStatusButton)"></button>
+                        </div>
+                    </ng-template>
+                </ng-template>
+            </div>
+
+            <sorana-popup [visible]="isTimerSettingsVisible" [width]="windowWidth >= 1000 ? 400 : 350"
+                [isCloseButtonVisible]="true" [isTitleVisible]="true" [title]="'Timer Settings'"
+                [isCloseOutsideClickAvailable]="false" (isPopupShouldBeHidden)="isTimerSettingsVisible = false;">
+                <div>
+                    <div id="timerModeSettings">
+                        <h5>Mode:</h5>
+                        <div class="timer-button-group">
+                            <button class="btn button"
+                                [ngStyle]="{'opacity': timerSettings.mode === timerModeBase.Easy ? 1 : .65}"
+                                (click)="timerSettings.mode = timerModeBase.Easy; saveTimerSettings();">Easy</button>
+                            <button class="btn button"
+                                [ngStyle]="{'opacity': timerSettings.mode === timerModeBase.Hard ? 1 : .65}"
+                                (click)="timerSettings.mode = timerModeBase.Hard; saveTimerSettings();">Hard</button>
+                        </div>
+
+                        <fa-icon size="sm" [icon]="timerGuideIcon" (click)="isTimerModeGuideVisible = true;"></fa-icon>
+                    </div>
+                    <div id="timerTypeSettings">
+                        <h5>Type:</h5>
+                        <div class="timer-button-group">
+                            <button class="btn button"
+                                [ngStyle]="{'opacity': timerSettings.type === timerTypeBase.Manual? 1 : .65}"
+                                (click)="timerSettings.type = timerTypeBase.Manual; saveTimerSettings();">Manual</button>
+                            <button class="btn button"
+                                [ngStyle]="{'opacity': timerSettings.type === timerTypeBase.Pomodoro? 1 : .65}"
+                                (click)="timerSettings.type = timerTypeBase.Pomodoro; saveTimerSettings();">Pomodoro</button>
+                        </div>
+
+                        <fa-icon size="sm" [icon]="timerGuideIcon" (click)="isTimerTypeGuideVisible = true;"></fa-icon>
+                    </div>
+                </div>
+            </sorana-popup>
+
+            <sorana-simple-popup [visible]="isTimerModeGuideVisible" [maxWidth]="350" [zIndex]="2"
+                [title]="'About timer mode'" [buttonType]="soranaPopupButtonTypeBase.Read"
+                (isPopupShouldBeHidden)="isTimerModeGuideVisible = false;">
+            </sorana-simple-popup>
+
+            <sorana-simple-popup [visible]="isTimerTypeGuideVisible" [maxWidth]="350" [zIndex]="2"
+                [title]="'About timer type'" [buttonType]="soranaPopupButtonTypeBase.Read"
+                (isPopupShouldBeHidden)="isTimerTypeGuideVisible = false;">
+            </sorana-simple-popup>
+        </div>
+
+        <!-- Task information for personal focus session (need to create another div for active session) -->
+        <div id="timerActivity">
+            <div *ngIf="currentTask; else noSelectedTaskForSessionError">
+                <p style="color: #c8c8c8;">Tracking task</p>
+                <h5>{{currentTask?.name}}</h5>
+                <!-- <fa-icon size="lg" [icon]="chooseAnotherTaskIcon" (click)="currentTask = undefined;">
+                </fa-icon> -->
+            </div>
+            <div style="display: flex; align-items: center; color: #c8c8c8; padding-top: 15px;">
+                <fa-icon size="sm" [icon]="showTrackedTasksIcon"></fa-icon>
+                <p style="padding-left: 10px; margin: 0;">Tracked tasks</p>
+            </div>
+
+
+            <!-- <div *ngIf="activeSession && areAllSessionMembersReady()">
+                <p [innerText]="'Session will start automatically'"></p>
+            </div> -->
+
+            <ng-template #noSelectedTaskForSessionError>
+                <p id="noSelectedTaskForSessionError">Choose a task from the workspace and click on the timer icon
+                </p>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<ng-template #taskNotSelectedError>
+    <div id="taskNotSelectedError">
+        <fa-icon size="lg" [icon]="timerIcon"></fa-icon>
+        <h5>Task is not selected</h5>
+        <fa-icon size="sm" [icon]="timerGuideIcon" (click)="isTimerGuideVisible = true;"></fa-icon>
+    </div>
+
+    <sorana-simple-popup [visible]="isTimerGuideVisible" [maxWidth]="350" [title]="'How to activate timer'"
+        [content]="'Choose a task from the workspace and click on the timer icon'"
+        [buttonType]="soranaPopupButtonTypeBase.Read" (isPopupShouldBeHidden)="isTimerGuideVisible = false;">
+    </sorana-simple-popup>
+</ng-template>
+
+<sorana-simple-popup [title]="sessionErrorTitle" [content]="sessionErrorContent" [visible]="isSessionErrorVisible"
+    [buttonType]="soranaPopupButtonTypeBase.Read" (isPopupShouldBeHidden)="isSessionErrorVisible = false;">
+</sorana-simple-popup>

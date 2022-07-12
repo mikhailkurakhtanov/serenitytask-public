@@ -1,0 +1,67 @@
+<div id="leftSideMenu" *ngIf="isTasksNumberReceived; else loadingAnimation">
+  <section id="workspaceMenu_tasks">
+    <button class="btn" [ngClass]="{'selected': selectedTaskInterval == taskInterval.Inbox}"
+      (click)="changeSelectedTaskInterval(taskInterval.Inbox)">
+      <fa-layers size="lg">
+        <fa-icon [icon]="inboxIcon"></fa-icon>
+      </fa-layers>
+      <span>Inbox</span>
+      <span *ngIf="tasksNumberByInterval.inbox > 0">{{tasksNumberByInterval.inbox}}</span>
+    </button>
+
+    <button id="overdueTasksButton" class="btn" *ngIf="tasksNumberByInterval.overdue > 0"
+      [ngClass]="{'selected': selectedTaskInterval == taskInterval.Overdue}"
+      (click)="changeSelectedTaskInterval(taskInterval.Overdue)">
+      <fa-icon [icon]="overdueIcon" size="lg"></fa-icon>
+      <span>Overdue</span>
+      <span>{{tasksNumberByInterval.overdue}}</span>
+    </button>
+
+    <button class="btn" [ngClass]="{'selected': selectedTaskInterval == taskInterval.Today}"
+      (mouseleave)="resetFaLayersTextStyling('todayDayText')" (mouseover)="applyFaLayersTextStyling('todayDayText')"
+      (click)="changeSelectedTaskInterval(taskInterval.Today)">
+      <fa-layers size="lg">
+        <fa-icon [icon]="todayIcon"></fa-icon>
+        <fa-layers-text id="todayDayText" [content]="todayDay.toString()"></fa-layers-text>
+      </fa-layers>
+      <span>Today</span>
+      <span *ngIf="tasksNumberByInterval.today > 0">{{tasksNumberByInterval.today}}</span>
+    </button>
+
+    <button class="btn" [ngClass]="{'selected': selectedTaskInterval == taskInterval.Tomorrow}"
+      (mouseleave)="resetFaLayersTextStyling('tomorrowDayText')"
+      (mouseover)="applyFaLayersTextStyling('tomorrowDayText')"
+      (click)="changeSelectedTaskInterval(taskInterval.Tomorrow)">
+      <fa-layers size="lg">
+        <fa-icon [icon]="todayIcon"></fa-icon>
+        <fa-layers-text id="tomorrowDayText" [content]="tomorrowDay.toString()"></fa-layers-text>
+      </fa-layers>
+      <span>Tomorrow</span>
+      <span *ngIf="tasksNumberByInterval.tomorrow > 0">{{tasksNumberByInterval.tomorrow}}</span>
+    </button>
+
+    <button class="btn" [ngClass]="{'selected': selectedTaskInterval == taskInterval.ThisWeek}"
+      (click)="changeSelectedTaskInterval(taskInterval.ThisWeek)">
+      <fa-layers size="lg">
+        <fa-icon [icon]="thisWeekIcon"></fa-icon>
+      </fa-layers>
+      <span>This Week</span>
+      <span *ngIf="tasksNumberByInterval.thisWeek > 0">{{tasksNumberByInterval.thisWeek}}</span>
+    </button>
+
+    <button class="btn" [ngClass]="{'selected': selectedTaskInterval == taskInterval.Upcoming}"
+      (click)="changeSelectedTaskInterval(taskInterval.Upcoming)">
+      <fa-layers size="lg">
+        <fa-icon [icon]="upcomingIcon"></fa-icon>
+      </fa-layers>
+      <span>Upcoming</span>
+      <span *ngIf="tasksNumberByInterval.upcoming > 0">{{tasksNumberByInterval.upcoming}}</span>
+    </button>
+  </section>
+</div>
+
+<ng-template #loadingAnimation>
+  <div class="loading-animation">
+    <img src="assets/img/animations/loading.gif" alt="">
+  </div>
+</ng-template>

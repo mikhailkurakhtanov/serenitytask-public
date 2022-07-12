@@ -1,0 +1,22 @@
+#footerAuthorized {
+    position: absolute;
+    bottom: 5px;
+    color: #c8c8c8;
+    background-color: white;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+#footerAuthorized>p>span {
+    cursor: pointer;
+    transition: color 0.25s ease-in-out;
+}
+
+#footerAuthorized>p>span:hover {
+    font-weight: bold;
+    color: #83c787;
+}

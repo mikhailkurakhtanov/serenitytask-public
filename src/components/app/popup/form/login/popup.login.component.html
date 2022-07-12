@@ -1,0 +1,104 @@
+<sorana-popup [isTitleVisible]="false" [isCloseOutsideClickAvailable]="true" [visible]="isLoginFormVisible"
+  [width]="windowWidth < 1000 ? 300 : 380" (isPopupShouldBeHidden)="closeLoginForm();">
+  <div id="loginForm" *ngIf="!isPasswordRecoveryFormVisible; else passwordRecoveryForm">
+    <div class="text-center">
+      <img src="assets/img/leaf.png" class="form-header-icon" alt="">
+      <h3>Keep growing</h3>
+    </div>
+
+    <div>
+      <input id="loginFormLogin" class="text-field" type="text" placeholder="Username or Email" name="loginFormLogin"
+        [(ngModel)]="loginModel.login" (ngModelChange)="validateLogin()">
+
+      <p class="field-error-mobile" [hidden]="!showLoginError || windowWidth > 1000" [innerText]="loginError"></p>
+      <dx-tooltip target="#loginFormLogin" position="left" [visible]="showLoginError && windowWidth > 1000"
+        [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content" [innerText]="loginError"></p>
+      </dx-tooltip>
+
+      <input id="loginFormPassword" class="text-field" type="password" name="loginFormPassword" placeholder="Password"
+        [(ngModel)]="loginModel.password" (ngModelChange)="validatePassword()">
+
+      <p class="field-error-mobile" [hidden]="!showPasswordError || windowWidth > 1000" [innerText]="passwordError"></p>
+      <dx-tooltip target="#loginFormPassword" position="right" [visible]="showPasswordError && windowWidth > 1000"
+        [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content" [innerText]="passwordError"></p>
+      </dx-tooltip>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="loginModel.rememberMe">
+      <label class="form-check-label">Remember me</label>
+    </div>
+
+    <div>
+      <button class="btn button" [disabled]="!isLoginButtonActive" [@changeButtonState]="playButtonAnimation"
+        [innerText]="loginButtonName" (click)="login()" (mousedown)="playButtonAnimation = true;"
+        (mouseup)="playButtonAnimation = false;" (mouseleave)="playButtonAnimation = false;"></button>
+      <button class="btn button" (click)="loginWithGoogle()">G</button>
+    </div>
+
+    <p (click)="isPasswordRecoveryFormVisible = true;">Forgot your password?</p>
+  </div>
+
+  <ng-template #passwordRecoveryForm>
+    <div class="text-center">
+      <h3>Password Recovery</h3>
+    </div>
+
+    <div>
+      <input id="passwordRecoveryEmail" class="text-field" type="text" placeholder="Email" name="passwordRecoveryEmail"
+        [(ngModel)]="passwordRecoveryModel.userEmail" (ngModelChange)="validateLogin()">
+      <dx-tooltip target="#passwordRecoveryEmail" position="left" [visible]="showEmailError && windowWidth > 1000"
+        [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content">User with this email does not exist</p>
+      </dx-tooltip>
+      <p class="field-error-mobile" [hidden]="!showEmailError || windowWidth > 1000">User with this email does not exist
+      </p>
+
+      <input id="passwordRecoveryNewPassword" class="text-field" type="password" placeholder="New Password"
+        name="passwordRecoveryNewPassword" [(ngModel)]="passwordRecoveryModel.newPassword"
+        (ngModelChange)="validateNewPassword()">
+      <dx-tooltip target="#passwordRecoveryNewPassword" position="right"
+        [visible]="showPasswordError && windowWidth > 1000" [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content" [innerText]="passwordError"></p>
+      </dx-tooltip>
+      <p class="field-error-mobile" [hidden]="!showPasswordError || windowWidth > 1000" [innerText]="passwordError"></p>
+
+      <input id="passwordRecoveryNewPasswordMatch" class="text-field" type="password"
+        placeholder="New Password Confirmation" name="passwordRecoveryNewPasswordMatch"
+        [(ngModel)]="passwordRecoveryModel.newPasswordConfirmation" (ngModelChange)="validateNewPasswordConfirmation()">
+      <p class="field-error-mobile" [hidden]="!showPasswordRecoveryMatchError || windowWidth > 1000">Passwords don't
+        match</p>
+      <dx-tooltip target="#passwordRecoveryNewPasswordMatch" position="left"
+        [visible]="showPasswordRecoveryMatchError && windowWidth > 1000" [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content">Passwords don't match</p>
+      </dx-tooltip>
+    </div>
+
+    <div style="text-align: center;">
+      <button class="btn button" [disabled]="!isConfirmButtonActive()"
+        (click)="sendRecoverPasswordRequest()">Confirm</button>
+    </div>
+  </ng-template>
+</sorana-popup>

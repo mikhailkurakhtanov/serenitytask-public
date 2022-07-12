@@ -1,0 +1,42 @@
+<header-authorized [receivedCurrentUser]="currentUser" (sectionTypeToEmit)="changeSection($event)"></header-authorized>
+<!-- <router-outlet></router-outlet> -->
+<body-authorized [hidden]="activeSection !== sectionTypeBase.Workspace" [currentUser]="currentUser"></body-authorized>
+<user-cards [hidden]="activeSection !== sectionTypeBase.UserSearch" [currentUser]="currentUser"></user-cards>
+
+<footer-authorized *ngIf="windowWidth >= 1000"
+    [receivedUserTimeZone]="currentUser?.userDetails?.timeZone?.timeZoneIdIANA ? currentUser.userDetails.timeZone.timeZoneIdIANA : ''">
+</footer-authorized>
+
+
+<sorana-popup [visible]="isTimeZoneWarningVisible" [width]="350" [isTitleVisible]="false"
+    [isCloseOutsideClickAvailable]="false">
+    <div id="timeZoneWarningInfo">
+        <h4>Select your current time zone to continue</h4>
+        <p>This information is required to create tasks and plan group sessions</p>
+    </div>
+
+    <div id="selectedTimeZoneResult" *ngIf="currentUser?.userDetails?.timeZone">
+        <p><b>Your time zone:</b> {{currentUser?.userDetails?.timeZone?.displayName}}</p>
+    </div>
+
+    <div id="timeZonePickerButtons">
+        <button class="btn button" (click)="isTimeZonePickerVisible = true;">
+            <span *ngIf="!areTimeZonesLoading; else TimeZoneApplyingIcon"
+                [innerText]="currentUser?.userDetails?.timeZone ? 'Change' : 'Select'"></span>
+            <ng-template #TimeZoneApplyingIcon>
+                <fa-icon size="lg" [icon]="loadingIcon" [hidden]="!areTimeZonesLoading"></fa-icon>
+            </ng-template>
+        </button>
+        <button class="btn button" [disabled]="!currentUser?.userDetails?.timeZone" (click)="saveTimeZone()">
+            <span *ngIf="!isTimeZoneChangesApplying; else TimeZonesLoadingIcon">Continue</span>
+            <ng-template #TimeZonesLoadingIcon>
+                <fa-icon size="lg" [icon]="loadingIcon"></fa-icon>
+            </ng-template>
+        </button>
+    </div>
+</sorana-popup>
+
+<edit-time-zone-popup [isTimeZonePickerVisible]="isTimeZonePickerVisible" [isTimeZonePickerVisibleOnWarning]="true"
+    (areTimeZonesLoadingToEmit)="areTimeZonesLoading = $event;" (selectedTimeZoneToEmit)="selectTimeZone($event)"
+    (isPopupShouldBeHidden)="isTimeZonePickerVisible = false;">
+</edit-time-zone-popup>

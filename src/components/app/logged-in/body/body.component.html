@@ -1,0 +1,72 @@
+<div class="container" *ngIf="currentUser">
+    <div class="row authorized-content">
+        <div id="workspaceMenu" class="col-md-6" [hidden]="!isWorkspaceMenuVisible || windowWidth < 1000"
+            [@changeWorkspaceMenuState]="workspaceMenuState"
+            (@changeWorkspaceMenuState.done)="applyTasksNamesStyling()">
+            <menu [receivedTasksNumberByInterval]="tasksNumberByInterval"
+                (taskIntervalToEmit)="applySelectedTaskInterval($event)">
+            </menu>
+        </div>
+
+        <div id="workspaceMenuEnabler" class="col-md-6" [hidden]="windowWidth < 1000">
+            <fa-icon size="2x" [icon]="workspaceMenuVisibilityIcon"
+                [ngStyle]="{'color': isWorkspaceMenuVisible ? '#547e55' : '#c8c8c8'}"
+                (click)="changeWorkspaceMenuVisibility()">
+            </fa-icon>
+        </div>
+
+        <div id="calendarAndTasksColumn" class="col"
+            [hidden]="windowWidth < 1000 && selectedSection != mobileMenuBase.Tasks">
+            <calendar [receivedCurrentUser]="currentUser" [receivedTaskInterval]="taskInterval"></calendar>
+            <timer *ngIf="currentUser && currentUser.userDetails && currentUser.userDetails.timeZone"
+                [hidden]="windowWidth < 1000" class="col" [currentUserId]="currentUser.id" [receivedTask]="taskForTimer"
+                [receivedUserSettings]="currentUser.userSettings"
+                [currentUserTimeZone]="currentUser.userDetails.timeZone.timeZoneIdIANA"></timer>
+            <tasks [receivedTaskInterval]="taskInterval"
+                [receivedCurrentUserTimeZone]="currentUser?.userDetails?.timeZone?.timeZoneIdIANA"
+                (taskForTimerToEmit)="applyTaskForTimer($event)"
+                (tasksNumberByIntervalToEmit)="applyTasksNumberByInterval($event)">
+            </tasks>
+        </div>
+
+        <div id="timerColumn" [hidden]="windowWidth >= 1000 || selectedSection != mobileMenuBase.Timer">
+            <timer [receivedTask]="taskForTimer" [receivedUserSettings]="currentUser.userSettings"></timer>
+        </div>
+
+        <div id="plantColumn" class="col-md-6" [hidden]="windowWidth < 1000 && selectedSection != mobileMenuBase.Plant">
+            <plant *ngIf="currentUser"
+                [currentUserTimeZone]="currentUser?.userDetails?.timeZone?.timeZoneIdIANA ? currentUser.userDetails.timeZone.timeZoneIdIANA : ''">
+            </plant>
+        </div>
+    </div>
+    <widgets class="row authorized-content" [hidden]="windowWidth < 1000" [receivedTaskForTimer]="taskForTimer"
+        [currentUser]="currentUser"></widgets>
+</div>
+
+<div id="mobileMenu" [hidden]="windowWidth >= 1000">
+    <div (click)="isTasksIntervalsVisible = !isTasksIntervalsVisible;">
+        <fa-icon size="lg" [icon]="tasksSectionIcon" [ngClass]="{'not-selected-item': selectedSection !== mobileMenuBase.Tasks,
+                        'selected-item': selectedSection === mobileMenuBase.Tasks}"></fa-icon>
+        <span>Tasks</span>
+    </div>
+    <div (click)="selectedSection = mobileMenuBase.Timer;">
+        <fa-icon size="lg" [icon]="timerSectionIcon" [ngClass]="{'not-selected-item': selectedSection !== mobileMenuBase.Timer,
+                    'selected-item': selectedSection === mobileMenuBase.Timer}"></fa-icon>
+        <span>Timer</span>
+    </div>
+    <div id="plantSectionButton" (click)="selectedSection = mobileMenuBase.Plant;">
+        <fa-icon size="lg" [icon]="plantSectionIcon" [ngClass]="{'not-selected-item': selectedSection !== mobileMenuBase.Plant,
+                        'selected-item': selectedSection === mobileMenuBase.Plant}"></fa-icon>
+        <span>Plant</span>
+    </div>
+    <div (click)="selectedSection = mobileMenuBase.Chat;">
+        <fa-icon size="lg" [icon]="chatSectionIcon" [ngClass]="{'not-selected-item': selectedSection !== mobileMenuBase.Chat,
+                        'selected-item': selectedSection === mobileMenuBase.Chat}"></fa-icon>
+        <span>Chat</span>
+    </div>
+</div>
+
+<div id="mobileMenuTaskMenu" [hidden]="!isTasksIntervalsVisible || windowWidth >= 1000 || !tasksNumberByInterval">
+    <menu [receivedTasksNumberByInterval]="tasksNumberByInterval"
+        (taskIntervalToEmit)="applySelectedTaskInterval($event)"></menu>
+</div>

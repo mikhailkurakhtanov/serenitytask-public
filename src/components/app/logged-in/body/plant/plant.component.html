@@ -1,0 +1,63 @@
+<div class="loading-animation" *ngIf="!isComponentLoaded; else plantInformation">
+  <img src="assets/img/animations/loading.gif" alt="">
+</div>
+<ng-template #plantInformation>
+  <div *ngIf="currentUserPlant && currentUserPlant.isDead == false; else noLivingPlant">
+    <header id="plantHeader" class="text-center">
+      <h2>{{currentUserPlant.name}}</h2>
+      <h4>Level {{currentUserPlant.level}}</h4>
+      <dx-progress-bar id="experienceProgressBar" width="100%" [statusFormat]="progressBarFormat" [showStatus]="false"
+        [max]="currentUserPlant.maxExperience" [min]="0" [value]="currentUserPlant.currentExperience">
+      </dx-progress-bar>
+
+      <div id="experienceProgressBarValues">
+        <p id="currentExperience">{{currentUserPlant.currentExperience}}</p>
+        <div id="maxExperience">
+          <p>{{currentUserPlant.maxExperience}}</p>
+        </div>
+      </div>
+
+      <dx-tooltip target="#experienceProgressBarValues" position="bottom"
+        [visible]="isExperienceChangingNotificationVisible" (onHidden)="experienceChangingNotificationContent = ''">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p [innerText]="experienceChangingNotificationContent" style="margin: 0; text-align: center;"></p>
+      </dx-tooltip>
+    </header>
+    <section class="text-center" [ngClass]="{'centered-vertically': windowWidth < 1000}">
+      <img class="current-plant-level" alt="" [src]="getCurrentPlantLevelImgPath()">
+      <div id="plantMenuActions">
+        <img src="assets/img/authorized/workspace/plant/info.png" alt="" (click)="isPlantHistoryPopupVisible = true;">
+      </div>
+    </section>
+  </div>
+  <ng-template #noLivingPlant>
+    <div id="noLivingPlantContainer" class="text-center" *ngIf="!currentUserPlant; else plantIsDead">
+      <h3>You don't have a plant.</h3>
+      <button class="btn button" [@changeButtonState]="playPlantTheFirstSeedButtonAnimation"
+        (click)="isCreatePlantPopupVisible = true;" (mousedown)="playPlantTheFirstSeedButtonAnimation = true;"
+        (mouseup)="playPlantTheFirstSeedButtonAnimation = false;"
+        (mouseleave)="playPlantTheFirstSeedButtonAnimation = false;">Plant the first seed</button>
+    </div>
+    <ng-template #plantIsDead>
+      <div id="plantIsDeadContainer" class="text-center">
+        <h3>Your plant is dead.</h3>
+        <button class="btn button" [@changeButtonState]="playStartPlantingAgainButtonAnimation"
+          (click)="isCreatePlantPopupVisible = true;" (mousedown)="playStartPlantingAgainButtonAnimation = true;"
+          (mouseup)="playStartPlantingAgainButtonAnimation = false;"
+          (mouseleave)="playStartPlantingAgainButtonAnimation = false;">Start planting again</button>
+      </div>
+    </ng-template>
+  </ng-template>
+  <popup-create-plant [isCreatePlantPopupVisible]="isCreatePlantPopupVisible" (createdPlant)="savePlant($event)"
+    (isPopupCreatePlantShouldBeHidden)="isCreatePlantPopupVisible = false;"></popup-create-plant>
+
+  <popup-plant-history [receivedPlantId]="currentUserPlant?.id" [receivedPlantHistoryView]="receivedPlantHistoryView"
+    [isPlantHistoryPopupVisible]="isPlantHistoryPopupVisible" [currentUserTimeZone]="currentUserTimeZone"
+    (isPlantHistoryPopupShouldBeHidden)="isPlantHistoryPopupVisible = false;"></popup-plant-history>
+
+  <popup-quote [isPopupQuoteVisible]="isPopupQuoteVisible"
+    (isPopupCreatePlantVisible)="isCreatePlantPopupVisible = true;"></popup-quote>
+</ng-template>

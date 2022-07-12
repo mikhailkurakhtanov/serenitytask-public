@@ -1,0 +1,79 @@
+hr {
+    color: #c8c8c8;
+}
+
+#notificationsPopover {
+    z-index: 1;
+    background: white;
+    position: absolute;
+    max-height: 500px;
+    width: 350px;
+    padding: 15px;
+    box-shadow: #c8c8c8 0px 0px 15px 2px;
+    border-radius: 15px;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c8c8c8;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: #83c787;
+}
+
+.notification {
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #c8c8c87c;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 15px;
+}
+
+.notification:last-of-type {
+    margin-bottom: 0;
+}
+
+.notification-date {
+    font-size: 12px;
+    color: #c8c8c8;
+    text-align: right;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+}
+
+.notification-content>img {
+    width: 50px;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+
+.notification-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.notification-actions>button {
+    margin-right: 15px;
+}
+
+.notification-actions>button:last-of-type {
+    margin-right: 0;
+}
+
+#noNotifications {
+    text-align: center;
+}

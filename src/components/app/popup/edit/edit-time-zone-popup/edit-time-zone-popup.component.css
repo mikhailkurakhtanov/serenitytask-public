@@ -1,0 +1,44 @@
+#timeZonePickerHeader {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+#timeZonePickerHeader>button {
+    margin-left: auto;
+}
+
+#timeZonePickerTitle {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+#timeZonePickerTitle>h4 {
+    margin: 0;
+}
+
+#timeZones {
+    max-height: 350px;
+    overflow: auto;
+}
+
+.time-zone {
+    margin: 15px;
+    border-radius: 15px;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid #83c787;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+}
+
+.time-zone:hover {
+    color: white;
+    background-color: #83c787;
+}
+
+.time-zone>p {
+    user-select: none;
+    margin: 0;
+}

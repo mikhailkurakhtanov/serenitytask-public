@@ -1,0 +1,71 @@
+#loginForm {
+  padding: 15px;
+}
+
+#loginForm>div:first-of-type {
+  padding-bottom: 15px;
+}
+
+#loginForm>div:last-of-type {
+  display: flex;
+}
+
+#loginForm>div:last-of-type>button {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#loginForm>div:last-of-type>button:first-of-type {
+  width: 100%;
+}
+
+#loginForm>div:last-of-type>button:last-of-type {
+  margin-left: 10px;
+}
+
+#loginForm>div:last-of-type {
+  margin-bottom: 15px;
+}
+
+#loginForm>p {
+  margin: 0;
+  color: #c8c8c8;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.button {
+  margin-top: 1rem;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #C2EDC3FF inset !important;
+  border-radius: 10px;
+}
+
+.form-check {
+  padding-bottom: 15px;
+}
+
+#registerFormLogin,
+#registerFormPassword {
+  border: none;
+  border-bottom: 1px solid #dfe7f1;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: inherit;
+  text-indent: 8px;
+  height: 42px;
+  transition: 0.25s ease-in-out;
+}
+
+:host ::ng-deep .dx-popup-wrapper>.dx-overlay-content {
+  box-shadow: 0 0 15px 2px #0000002e;
+  border-radius: 5px;
+  height: auto !important;
+}

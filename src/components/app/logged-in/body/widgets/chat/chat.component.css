@@ -1,0 +1,274 @@
+#showChatWidgetButton {
+    position: fixed;
+    bottom: 75px;
+    text-align: right;
+}
+
+#chatWidget {
+    width: 350px;
+    user-select: none;
+}
+
+#onlineFriends {
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    cursor: poiner;
+}
+
+#onlineFriends>div {
+    cursor: pointer;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+#onlineFriends>div>img {
+    width: 50px;
+    border-radius: 10px;
+    transition: filter 0.25s ease-in-out;
+}
+
+#onlineFriends>img:hover {
+    filter: brightness(75%);
+}
+
+#onlineFriends>div:last-of-type {
+    margin-right: 0;
+}
+
+hr {
+    height: 3px;
+    margin: 10px 0 15px 0;
+    color: #c8c8c8;
+}
+
+#chats>div {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px;
+    margin-bottom: 15px;
+    transition: background-color 0.25s ease-in-out;
+}
+
+#chats>div:hover {
+    background-color: #83c78727;
+}
+
+#chats>div>img {
+    width: 50px;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+
+#chats>div>p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hide-widget-button {
+    text-align: right;
+}
+
+.hide-widget-button>fa-icon {
+    color: #83c787;
+    cursor: pointer;
+}
+
+.received-message,
+.sended-message {
+    padding: 15px;
+    max-width: 250px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 2px solid #c8c8c8;
+}
+
+.received-message {
+    margin-right: auto;
+}
+
+.sended-message {
+    margin-left: auto;
+}
+
+.active-chat-messages {
+    max-height: 350px;
+    overflow: auto;
+}
+
+.active-chat-messages::-webkit-scrollbar {
+    width: 25px;
+}
+
+.active-chat-messages::-webkit-scrollbar-thumb {
+    background: #c8c8c8;
+    border-left: 15px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+}
+
+.active-chat-messages::-webkit-scrollbar-thumb:active {
+    background: #83c787;
+    border-left: 15px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+}
+
+button>fa-layers>fa-icon> ::ng-deep svg {
+    margin-top: 5px;
+    width: 1em;
+}
+
+#chatGuide {
+    text-align: center;
+    padding: 15px;
+}
+
+#chatGuide>h5 {
+    padding-bottom: 15px;
+}
+
+.chat-action-button-guide {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.active-chat-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-active-chat-button {
+    text-align: left;
+    color: #83c787;
+    cursor: pointer;
+}
+
+.active-chat-friend-info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.active-chat-friend-info>img {
+    width: 30px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.active-chat-friend-info>h5 {
+    text-align: center;
+    margin: 0;
+}
+
+.active-chat-menu-button {
+    text-align: right;
+    color: #83c787;
+    cursor: pointer
+}
+
+.message-sender {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-bottom: 5px;
+}
+
+.message-sender>img {
+    width: 15px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+.message-sender>p {
+    font-size: 12px;
+}
+
+::ng-deep .chat-action-button-guide>fa-icon {
+    width: 20px !important;
+    margin-right: 10px !important;
+}
+
+#onlineFriends::-webkit-scrollbar {
+    height: 10px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#onlineFriends::-webkit-scrollbar-track {
+    display: none;
+}
+
+#onlineFriends::-webkit-scrollbar-thumb {
+    background: #c8c8c8;
+    border-radius: 15px;
+}
+
+#onlineFriends::-webkit-scrollbar-thumb:active {
+    transform: scale(1.1);
+    background: #83c787;
+}
+
+.selected-chat-social {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+    padding: 5px;
+    border: 1px solid #83c787;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+}
+
+.selected-chat-social:hover {
+    color: white;
+    background-color: #83c787;
+}
+
+.selected-chat-social>p {
+    margin: 0;
+}
+
+::ng-deep #newSessionPicker>div>div {
+    display: none;
+}
+
+::ng-deep dx-date-box.dx-visibility-change-handler {
+    border: none !important;
+}
+
+@media (max-width: 991px) {
+
+    #chatWidget,
+    #noFriendsError {
+        background: white;
+        position: initial;
+        height: auto;
+        padding: 15px;
+        box-shadow: none;
+        border: none;
+    }
+}
+
+@media (min-width: 992px) {
+
+    #chatWidget,
+    #noFriendsError {
+        background: white;
+        position: fixed;
+        height: auto;
+        bottom: 75px;
+        padding: 15px;
+        box-shadow: #c8c8c8 0px 0px 15px 2px;
+        border-radius: 15px;
+    }
+}

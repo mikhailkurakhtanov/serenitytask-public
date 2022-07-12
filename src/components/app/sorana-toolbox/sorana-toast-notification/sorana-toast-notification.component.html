@@ -1,0 +1,9 @@
+<div [@changeNotificationState]="visible" [ngClass]="{'sorana-toast-notification': visible}"
+    [ngStyle]="{'width': !visible ? 0 : windowWidth < 1000 ? '300px' : width ? width + 'px' : '350px'}">
+    <div *ngIf="visible">
+        <img src="/assets/img/leaf.png">
+        <div>
+            <p>{{content}}</p>
+        </div>
+    </div>
+</div>

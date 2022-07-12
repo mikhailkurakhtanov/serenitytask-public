@@ -1,0 +1,32 @@
+#logo {
+  width: 100%;
+}
+
+.mb-3 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#adminAuthenticationForm {
+  padding: 0 !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #C2EDC3FF inset !important;
+  transition: 0s !important;
+}
+
+#login:-webkit-autofill {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  transition: 0.25s !important;
+}
+
+#password:-webkit-autofill {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  transition: 0.25s !important;
+}

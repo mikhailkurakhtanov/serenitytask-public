@@ -1,0 +1,33 @@
+.navbar {
+  z-index: 1;
+  background-color: white;
+}
+
+#navbarLeftMenu, #navbarRightMenu {
+  display: flex;
+  align-items: center;
+}
+
+#navbarLeftMenu>img {
+  height: 39px;
+}
+
+#navbarLeftMenu>fa-icon {
+  margin-left: 1rem;
+}
+
+#navbarRightMenu>a {
+  margin-right: 1rem;
+}
+
+#navbarRightMenu>a, #navbarLeftMenu>fa-icon {
+  cursor: pointer;
+  font-weight: bold;
+  color: #83c787;
+  text-decoration: none;
+  transition: color 0.25s ease-in-out;
+}
+
+#navbarLeftMenu>fa-icon:hover, #navbarRightMenu>a:hover {
+  color: #547e55;
+}

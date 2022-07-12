@@ -1,0 +1,89 @@
+<sorana-popup [width]="plantHistoryByDaysFiltered.length > 0 ? (windowWidth >= 1000 ? 750 : 350) : 300"
+  [visible]="isPlantHistoryPopupVisible" [isTitleVisible]="true" [isCloseButtonVisible]="true" [title]="'Plant History'"
+  (isPopupShouldBeHidden)="isPlantHistoryPopupShouldBeHidden.emit()">
+
+  <div *ngIf="plantHistoryByDaysFiltered && plantHistoryByDaysFiltered.length > 0; else noPlantHistoryDiv">
+    <div id="chartIntervalSelectors">
+      <button class="btn button">
+        <fa-icon size="sm" [icon]="previous7daysIcon"></fa-icon>
+      </button>
+
+      <h4>Weekly log</h4>
+
+      <button class="btn button">
+        <fa-icon size="sm" [icon]="next7daysIcon"></fa-icon>
+      </button>
+    </div>
+
+    <dx-chart id="chart" [barGroupWidth]="windowWidth >= 1000 ? 75 : 25" [dataSource]="plantHistoryByDaysFiltered"
+      palette="Harmony Light" (onArgumentAxisClick)="showDailyLog($event)">
+      <dxi-value-axis name="completedNonPriorityTasks" position="left" [tickInterval]="1">
+        <dxi-constant-line [value]="10" color="#c8c8c8" dashStyle="dash" [width]="2">
+          <dxo-label [visible]="false"></dxo-label>
+        </dxi-constant-line>
+      </dxi-value-axis>
+      <dxi-value-axis name="totalExperience" position="right"></dxi-value-axis>
+
+      <dxo-argument-axis>
+        <dxo-label overlappingBehavior="stagger"></dxo-label>
+      </dxo-argument-axis>
+
+      <dxo-size [width]="windowWidth >= 1000 ? 700 : 300"></dxo-size>
+      <dxo-tooltip [enabled]="isChartTooltipEnabled" [customizeTooltip]="customizeTooltip">
+      </dxo-tooltip>
+
+      <dxo-common-series-settings argumentField="formattedDate" type="stackedBar"></dxo-common-series-settings>
+      <dxi-series valueField="completedPriorityTasks" name="Completed Priority Tasks" color="#83c787"></dxi-series>
+      <dxi-series valueField="completedNonPriorityTasks" name="Completed Ordinary Tasks" color="#d0eec5"></dxi-series>
+      <dxi-series type="spline" valueField="totalExperience" axis="totalExperience" name="Total experience"
+        color="#547e55">
+      </dxi-series>
+      <dxo-legend verticalAlignment="top" horizontalAlignment="center"></dxo-legend>
+    </dx-chart>
+  </div>
+
+  <ng-template #noPlantHistoryDiv>
+    <div id="noPlantHistoryDiv" class="text-center">
+      <p>You don't have any stats for this plant. Complete tasks to see more.</p>
+      <button class="btn button" (click)="this.isPlantHistoryPopupShouldBeHidden.emit();">Okay</button>
+    </div>
+  </ng-template>
+</sorana-popup>
+
+<sorana-popup [width]="windowWidth >= 1000 ? 700 : 325" [height]="400" [visible]="isSelectedDayLogVisible"
+  [title]="selectedDayTitle" [isCloseButtonVisible]="true" (isPopupShouldBeHidden)="rollbackDailyLog()">
+  <div *ngIf="selectedDayData.length > 0">
+    <div id="plantHistoryProperties" class="row">
+      <div class="col" [ngStyle]="{'max-width': windowWidth >= 1000 ? '20%' : '40%'}">
+        <p>Task Name</p>
+      </div>
+      <div *ngIf="windowWidth >= 1000" class="col task-column">
+        <p>Priority</p>
+      </div>
+      <div *ngIf="windowWidth >= 1000" class="col status-column">
+        <p>Status</p>
+      </div>
+      <div class="col" [ngStyle]="{'max-width': windowWidth >= 1000 ? '40%' : '60%'}">
+        <p>Description</p>
+      </div>
+      <hr>
+    </div>
+    <dx-scroll-view height="250">
+      <div class="row text-center history-note" *ngFor="let item of selectedDayData">
+        <div class="col date-column" [ngStyle]="{'max-width': windowWidth >= 1000 ? '20%' : '40%'}">
+          <p [innerText]="item.taskDetails ? item.taskDetails.name : ''"></p>
+        </div>
+        <div *ngIf="windowWidth >= 1000" class="col task-column">
+          <p [innerText]="item.taskDetails ? item.taskDetails.priority === 0 ? 'Ordinary' : 'High' : ''"></p>
+        </div>
+        <div *ngIf="windowWidth >= 1000" class="col status-column">
+          <p [innerText]="item.receivedExperience > 0 ? '+' + item.receivedExperience : item.receivedExperience"></p>
+        </div>
+        <div class="col description-column" [ngStyle]="{'max-width': windowWidth >= 1000 ? '40%' : '60%'}">
+          <p [innerText]="item.description"></p>
+        </div>
+        <hr>
+      </div>
+    </dx-scroll-view>
+  </div>
+</sorana-popup>

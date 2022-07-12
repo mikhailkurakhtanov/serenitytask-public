@@ -1,0 +1,45 @@
+.register-form {
+  padding: 15px;
+}
+
+.register-form>div:first-of-type {
+  text-align: center;
+}
+
+.register-form>div:first-of-type>h3 {
+  margin: 0;
+}
+
+.register-form>div:nth-child(2) {
+  padding: 15px 0;
+}
+
+#registerOptions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+#registerOptions>button:last-of-type {
+  margin-left: 10px;
+}
+
+.form-check>label>span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+:host ::ng-deep .dx-popup-wrapper>.dx-overlay-content {
+  box-shadow: 0 0 15px 2px #0000002e;
+  border-radius: 5px;
+  height: auto !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #C2EDC3FF inset !important;
+  transition: 0s !important;
+  border-radius: 10px;
+}

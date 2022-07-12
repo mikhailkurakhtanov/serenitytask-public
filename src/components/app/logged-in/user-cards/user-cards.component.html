@@ -1,0 +1,177 @@
+<div class="container">
+    <div id="searchContainer">
+        <div id="searchInputContainer">
+            <input #searchInput [(ngModel)]="searchQuery" type="text" name="search-bar"
+                placeholder="Type Username or Email...">
+        </div>
+        <button class="btn button" [disabled]="!isApplyButtonActive" [@changeButtonState]="isApplyButtonAnimated"
+            (mousedown)="searchInput.blur(); changeApplyButtonState()" (mouseup)="changeApplyButtonState()"
+            (click)="searchUsers(searchInput.value)">Apply</button>
+        <button class="btn button" [@changeButtonState]="isRollbackButtonAnimated"
+            (mousedown)="changeRollbackButtonState()" (mouseup)="changeRollbackButtonState()"
+            (click)="rollbackSearchOptions(searchInput)">
+            <fa-icon [icon]="searchRollbackIcon" size="1x"></fa-icon>
+        </button>
+    </div>
+
+    <div id="searchOptions">
+        <div #searchOptionsToggle>
+            <fa-icon [icon]="searchOptionsToggleIcon" size="1x"
+                (click)="updateSearchOptionsToggleIcon(searchOptionsToggle)"></fa-icon>
+        </div>
+        <div>
+            <h4>Search options</h4>
+
+            <div id="searchOptionsContent" [@changeSearchOptionsState]="areSearchOptionsVisible">
+                <div class="search-option col-md">
+                    <h5>Languages</h5>
+                    <div *ngFor="let item of searchOptions.languages">
+                        <div class="search-option-content">
+                            <fa-icon size="lg" [icon]="item.icon"
+                                [ngStyle]="{'color': item.selected ? '#83c787' : '#c8c8c8'}"
+                                (click)="item.updateSelectedState()">
+                            </fa-icon>
+                            <p [ngStyle]="{'font-weight': item.selected ? 'bold' : 'normal'}">{{item.name}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-option col-md">
+                    <h5>Interests</h5>
+                    <div *ngFor="let item of searchOptions.interests; index as interestIndex">
+                        <div class="search-option-content">
+                            <fa-icon size="lg" [icon]="item.icon"
+                                [ngStyle]="{'color': item.selected ? '#83c787' : '#c8c8c8'}"
+                                (click)="item.updateSelectedState(); checkOnOtherOptions(item, interestIndex)">
+                            </fa-icon>
+                            <p [ngStyle]="{'font-weight': item.selected ? 'bold' : 'normal'}">
+                                {{item.name}}&nbsp;
+                                <span class="other-search-option-number"
+                                    *ngIf="item.name == 'Other' && item.selected && searchOptions.otherInterests.length > 0">{{searchOptions.otherInterests.length}}</span>
+                            </p>
+                        </div>
+
+                        <dx-popup #otherInterestsPopup height="auto" [width]="300"
+                            [visible]="item.name == 'Other' && item.selected" [showTitle]="false"
+                            [showCloseButton]="false" [closeOnOutsideClick]="false">
+
+                            <div id="customInterestsTitle">
+                                <h5>Custom interests</h5>
+                                <button class="btn button"
+                                    (click)="otherInterestsPopup.instance.hide(); checkOnOtherOptions(item, interestIndex, userSearchOptionsTypesBase.Interests)">
+                                    <fa-icon size="1x" [icon]="closeIcon"></fa-icon>
+                                </button>
+                            </div>
+
+                            <div id="addInterestGroup">
+                                <input #newInterest id="newInterestInput" placeholder="Type new interest"
+                                    [maxLength]="20">
+                                <fa-icon size="lg" [icon]="completeActionIcon" [ngClass]="{'complete-icon-active': newInterest.value.length > 1,
+                                                'complete-icon-disabled': newInterest.value.length < 2}"
+                                    (click)="removeCustomInterest(newInterest)">
+                                </fa-icon>
+                            </div>
+                            <div style="display: flex; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
+                                <div class="custom-interest"
+                                    *ngFor="let item of searchOptions.otherInterests; index as otherInterstIndex"
+                                    (click)="searchOptions.otherInterests.splice(otherInterstIndex, 1)">
+                                    <p>{{item}}</p>
+                                </div>
+                            </div>
+                        </dx-popup>
+                    </div>
+                </div>
+
+                <div class="search-option col-md">
+                    <h5>Time zone</h5>
+                    <div *ngFor="let item of searchOptions.timezones">
+                        <div class="search-option-content">
+                            <fa-icon size="lg" [icon]="item.icon"
+                                [ngStyle]="{'color': item.selected ? '#83c787' : '#c8c8c8'}"
+                                (click)="item.updateSelectedState()">
+                            </fa-icon>
+                            <p [ngStyle]="{'font-weight': item.selected ? 'bold' : 'normal'}">{{item.name}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-option col-md">
+                    <h5>Activity</h5>
+                    <div *ngFor="let item of searchOptions.activities">
+                        <div class="search-option-content">
+                            <fa-icon size="lg" [icon]="item.icon"
+                                [ngStyle]="{'color': item.selected ? '#83c787' : '#c8c8c8'}"
+                                (click)="item.updateSelectedState()">
+                            </fa-icon>
+                            <p [ngStyle]="{'font-weight': item.selected ? 'bold' : 'normal'}">{{item.name}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 15px;" *ngIf="!isApplyButtonActive; else searchResults">
+        <img src="assets/img/animations/loading.gif">
+        <h3 style="margin-top: 5px;">Searching...</h3>
+    </div>
+
+    <ng-template #searchResults>
+        <div *ngIf="userCards.length > 0; else nothingFound">
+            <div class="user-card" *ngFor="let userCard of userCards; index as index"
+                [@changeUserCardState]="userCard.isNewCardAnimationActive">
+                <div class="user-info">
+                    <div>
+                        <img [src]="userCard.avatar" />
+                        <div>
+                            <h4>{{userCard.name}}<span>&nbsp;{{userCard.isUserOnline ? 'Online' : ''}}</span></h4>
+                            <div style="display: flex; align-items: start;">
+                                <div *ngFor="let achievement of userCard.achievements; index as cardIndex"
+                                    style="cursor: pointer; z-index: 15;"
+                                    (click)="achievement.isTooltipVisible = true;">
+                                    <img id="card_{{cardIndex}}_achievement_{{achievement.id}}"
+                                        [src]="achievement.type.icon"
+                                        style="width: 25px; margin-right: 10px; border-radius: 5px;">
+                                    <dx-tooltip target="#card_{{cardIndex}}_achievement_{{achievement.id}}"
+                                        position="bottom" [visible]="achievement.isTooltipVisible"
+                                        (onHidden)="achievement.isTooltipVisible = false;">
+                                        <div style="display: flex; justify-content: center;">
+                                            <img [src]="achievement.type.icon"
+                                                style="width: 50px; border-radius: 15px;">
+                                            <div style="display: block; padding-left: 15px; text-align: center;">
+                                                <h5 [innerText]="achievement.type.name"></h5>
+                                                <p [innerText]="achievement.type.description"></p>
+                                            </div>
+                                        </div>
+                                    </dx-tooltip>
+                                </div>
+                            </div>
+
+                            <p *ngIf="userCard.age">Age: {{userCard.age}}</p>
+                            <p *ngIf="userCard.timeZone">Time zone: {{userCard.timeZone}}</p>
+                            <p *ngIf="userCard.languages">Languages: {{userCard.languages?.join(', ')}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p *ngIf="userCard.interests"><b>Interests:</b>&nbsp;{{userCard.interests?.join(', ')}}</p>
+                        <p *ngIf="userCard.lookingFor"><b>Looking for:</b>&nbsp;{{userCard.lookingFor}}</p>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <button class="btn button" [disabled]="userCard.friendRequestButtonStatus.indexOf('Sent') >= 0"
+                        (click)="sendFriendRequest(index)">
+                        <fa-icon [icon]="sendFriendRequestIcon" size="1x"></fa-icon>
+                        <span>&nbsp;{{userCard.friendRequestButtonStatus}}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #nothingFound>
+        <div style="text-align: center;" *ngIf="isNothingFoundErrorVisible">
+            <h3 style="margin-bottom: 15px;">Nothing found</h3>
+            <p>Change search options or check user's username or email and try again.</p>
+        </div>
+    </ng-template>
+</div>

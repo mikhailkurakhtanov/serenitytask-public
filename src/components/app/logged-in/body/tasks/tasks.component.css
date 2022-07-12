@@ -1,0 +1,375 @@
+#taskActionsContainer {
+  display: flex;
+  margin: 25px 0;
+}
+
+#filterOptions {
+  margin-left: 10px;
+  font-size: 16px;
+  float: right;
+}
+
+#showAddTaskFormButton {
+  margin-right: 5px;
+}
+
+#searchContainer {
+  display: flex;
+  margin-left: auto;
+  font-size: 14px;
+  width: 100%;
+}
+
+#searchInput {
+  border: 1px solid rgb(131, 199, 135);
+  padding: 10px;
+  width: 100%;
+  border-right-style: none;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.btn .btn-default .search-btn {
+  border: 1px solid #ddd;
+  background-color: #FFFFFF !important;
+  border-radius: 0 5px 5px 0;
+  border-left: none;
+  background-image: none;
+  box-shadow: none;
+  color: #919693;
+}
+
+.search-btn {
+  background: rgb(255, 244, 224);
+  border-color: rgb(131, 199, 135);
+  border-left-style: none;
+  border-radius: 0 10px 10px 0;
+}
+
+.search-btn>fa-icon {
+  color: rgb(131, 199, 135);
+}
+
+.newTask,
+.new-subtask {
+  display: flex;
+  color: rgb(200, 200, 200);
+  opacity: 0.50;
+}
+
+.new-subtask {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.new-subtask>fa-icon {
+  color: #c8c8c8;
+}
+
+.newTask>fa-icon {
+  color: #c8c8c8;
+  margin-right: 5px;
+  pointer-events: none;
+}
+
+.new-subtask-input {
+  margin-left: 5px;
+}
+
+#newTaskInput,
+.new-subtask-input {
+  width: 100%;
+  border: none;
+}
+
+fa-icon {
+  cursor: pointer;
+}
+
+.task {
+  box-shadow: 0 0 0 0 #c8c8c8;
+  padding: 0;
+}
+
+.task>.task-subtasks>.task-subtask:last-child {
+  margin-bottom: 0;
+}
+
+.task,
+.task-subtask {
+  transition: background-color ease-in-out 0.25s;
+  -webkit-transition: background-color ease-in-out 0.25s;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.task-details-visibility-button>fa-icon {
+  display: inline-flex;
+  color: #547e55;
+}
+
+.task-name {
+  margin-bottom: 0;
+  flex: 1;
+  border: none;
+  overflow: hidden;
+  outline: none;
+  width: 100%;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
+  background: none;
+}
+
+.task-name:hover {
+  color: #547e55;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.task-name:focus {
+  font-weight: bold;
+  color: #547e55;
+}
+
+.task-name:disabled {
+  font-weight: normal;
+  color: black;
+}
+
+.task-properties {
+  display: flex;
+  align-items: center;
+  font-family: 'Gilroy-Medium', serif;
+  margin-left: auto;
+}
+
+.task-property-content {
+  margin-right: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.task-property-content:hover {
+  font-weight: bold;
+  color: #83c787;
+}
+
+.task-property> ::ng-deep .dx-field-value> ::ng-deep .dx-texteditor.dx-editor-outlined {
+  border: none;
+}
+
+.task-property> ::ng-deep .dx-field-value> ::ng-deep .dx-texteditor> ::ng-deep .dx-dropdowneditor-input-wrapper {
+  display: none;
+}
+
+.task-property-icon {
+  margin-right: 2px;
+}
+
+span.task-overdue-label {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.task-left-icon {
+  color: #83c787;
+  margin-right: 5px;
+}
+
+.task-name-and-properties {
+  width: 100%;
+}
+
+.task-name-and-properties-close-button {
+  display: flex;
+}
+
+.task-files,
+.task-subtasks {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.task-subtask {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.task-files>div,
+.task-subtasks>div:first-of-type {
+  display: flex;
+}
+
+.task-files>div>p,
+.task-subtasks>div>p {
+  color: #547e55;
+  font-weight: bold;
+}
+
+.upload-file-input {
+  display: none;
+}
+
+.task-file {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.task-file-details,
+.task-file-details {
+  display: table;
+  width: 100%;
+}
+
+.task-file-details>p,
+.task-file-details>div {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.task-file-details>p:first-of-type {
+  padding-left: 10px;
+}
+
+.task-file-details {
+  margin-left: auto;
+}
+
+.task-file-actions {
+  float: right;
+  width: auto;
+  text-align: end;
+}
+
+.task-file-action {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.task-file-action:first-of-type {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.loading-animation {
+  margin-top: 25px;
+}
+
+::ng-deep .task-file-action>fa-icon {
+  color: rgb(131, 199, 135);
+  transition: color ease-in-out 0.25s, transform ease-in-out 0.25s;
+}
+
+::ng-deep .task-file-action>fa-icon:hover {
+  color: #547e55;
+}
+
+::ng-deep .dx-context-menu> ::ng-deep .dx-submenu {
+  border-radius: 10px;
+  box-shadow: 0 0 5px 3px #c8c8c8;
+}
+
+::ng-deep .dx-widget .dx-calendar-navigator>.dx-calendar-caption-button>.dx-button-content>.dx-button-text,
+::ng-deep .dx-widget .dx-calendar-navigator>.dx-calendar-navigator-previous-view>.dx-button-content>.dx-icon,
+::ng-deep .dx-widget .dx-calendar-navigator>.dx-calendar-navigator-next-view>.dx-button-content>.dx-icon {
+  color: #547e55;
+}
+
+::ng-deep .dx-textarea {
+  font-family: 'Gilroy-Medium', serif;
+  border: green;
+  font-size: 16px;
+}
+
+::ng-deep .dx-calendar-views-wrapper>.dx-widget>table>thead>tr>th {
+  font-family: 'Gilroy-Medium', serif;
+}
+
+::ng-deep .dx-calendar-selected-date {
+  box-shadow: inset 0 0 0 1px #bebebe, inset 0 0 0 1000px #83c787 !important;
+}
+
+::ng-deep .dx-popup-wrapper>.dx-overlay-content {
+  box-shadow: 0 0 15px 2px #0000002e;
+  border-radius: 15px;
+}
+
+@media (max-width: 999px) {
+  .task:last-child {
+    border-bottom: none;
+  }
+
+  .task-properties>.task-property>.task-property-content:first-child {
+    margin-left: 0;
+  }
+
+  .task-properties {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
+  .task-left-icon {
+    margin-right: 10px;
+  }
+
+  .task:last-of-type>div {
+    border: none;
+  }
+
+  .task-context-menu {
+    color: #83c787;
+  }
+
+  .newTask>fa-icon {
+    margin-right: 10px;
+  }
+
+  .newTask>fa-icon:last-of-type {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+
+  .new-subtask>fa-icon:last-of-type {
+    display: block;
+    margin-left: 10px;
+    transition: color 0.25s ease-in-out;
+  }
+
+  ::ng-deep .new-subtask>fa-icon:last-of-type:hover {
+    color: #83c787;
+  }
+
+  .new-subtask>fa-icon:first-child {
+    margin-right: 10px;
+  }
+
+  .task-file-name {
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (min-width: 1000px) {
+  .task-name-and-properties {
+    display: flex;
+    flex: 1;
+  }
+
+  .new-subtask>fa-icon:last-of-type {
+    display: none;
+  }
+}
+
+@media (max-width: 1199px) {
+  .task-property.task-timer-property {
+    display: block;
+  }
+}

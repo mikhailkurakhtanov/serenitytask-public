@@ -1,0 +1,48 @@
+:host .popup {
+    opacity: 0;
+    background: white;
+    position: absolute;
+    padding: 20px;
+    box-shadow: #c8c8c8 0px 0px 15px 2px;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 2;
+    border-radius: 15px;
+    display: none;
+}
+
+:host .header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+:host .header>h3 {
+    width: 100%;
+    margin: 0;
+    text-align: left;
+}
+
+:host .header>button {
+    margin-left: 15px;
+}
+
+/* :host ::ng-deep .body {
+    padding-bottom: 15px;
+} */
+
+:host .footer {
+    display: flex;
+    justify-content: center;
+}
+
+:host .footer>button {
+    width: 100%;
+}
+
+:host .footer>button:last-of-type {
+    margin-left: 15px;
+}

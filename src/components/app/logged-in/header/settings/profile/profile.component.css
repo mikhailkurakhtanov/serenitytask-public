@@ -1,0 +1,286 @@
+#profilePicture {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+#profilePicture>* {
+    cursor: pointer;
+}
+
+#profilePicture>label>img {
+    max-width: 100%;
+    margin-right: 10px;
+    padding: 0;
+    transition: 0.25s;
+    border-bottom: 0 solid #83c787;
+    border-radius: 10px;
+}
+
+#profilePicture>label>p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: 0.25s;
+    transform: translate(-50%, -50%);
+}
+
+#profilePicture>input {
+    display: none;
+}
+
+.profile-edit-icon,
+.profile-confirm-icon,
+.profile-cancel-icon {
+    color: #c8c8c8;
+    cursor: pointer;
+    transition: color 0.25s ease;
+    padding-left: 10px;
+}
+
+.profile-edit-icon {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.25s ease, opacity 0.25s ease;
+}
+
+#profileTimeZone {
+    cursor: pointer;
+}
+
+#profileTimeZone>p>span {
+    transition: color 0.25s ease-in-out;
+}
+
+#profileName,
+#profileAge,
+#profileTimeZone {
+    display: flex;
+    align-items: center;
+    transition: align-items 0.25s ease;
+}
+
+#profileAge>input,
+#profileTimeZone>input {
+    transition: color 0.25s ease, font-weight 0.25s ease;
+    width: 7ch;
+}
+
+#profileName:hover>.profile-edit-icon,
+#profileAge:hover>.profile-edit-icon,
+#profileTimeZone:hover>.profile-edit-icon {
+    visibility: visible;
+    opacity: 1;
+}
+
+.profile-cancel-icon {
+    margin-left: 10px;
+}
+
+.profile-cancel-icon:hover,
+.profile-confirm-icon:hover {
+    color: #547e55;
+}
+
+#profileName>input {
+    margin-bottom: 0;
+    border: none;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none;
+    background: none;
+    font-size: 25px;
+    box-sizing: border-box;
+    font-weight: bold;
+    transition: color 0.25s ease;
+}
+
+#profileName>input:hover,
+#profileAge>input:hover,
+#profileTimeZone>p>span:hover {
+    color: #547e55;
+    cursor: pointer;
+}
+
+#profileName>input:focus,
+#profileAge>input:focus {
+    font-weight: bold;
+    color: #c8c8c8;
+}
+
+#profileAbout>div:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+#profileAbout>div:not(:first-child) and div:not(:last-child) {
+    display: flex;
+}
+
+#profileAbout>div:not(:first-child)>p {
+    width: auto;
+}
+
+#profileAbout>div:not(:first-child)>input {
+    border: none;
+    margin-left: 5px;
+    font-size: 16px;
+}
+
+button.profile-interests-action {
+    padding: 0 10px;
+}
+
+#profileAboutMe {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+#profileAboutMe>div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 5px;
+}
+
+#profileAboutMe>div>#interestsActions>button:last-child {
+    margin-left: 5px;
+}
+
+#interestsActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.profile-interest {
+    padding: 0 10px;
+    transition: 0.25s ease;
+    font-weight: normal !important;
+    color: black !important;
+    background: transparent !important;
+    border: 1px solid #83c787;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.profile-interest:hover {
+    background: #ff7474 !important;
+    color: white !important;
+    border-color: #ff7474;
+}
+
+#profilePicture+hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #555555;
+}
+
+#profileLinks {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#profileLinks>button {
+    display: block;
+}
+
+#profileLinks>button:last-of-type {
+    margin-left: 10px;
+}
+
+.active-profile-link {
+    background: #c8c8c8 !important;
+}
+
+#achievementsAndFriends>div>h4 {
+    margin: 0;
+}
+
+#achievementsAndFriends>div>div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#achievementsAndFriends>div>div>fa-icon {
+    color: rgb(200, 200, 200);
+}
+
+#profileAchievements {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+#profileAchievements>h4,
+#profileFriends>h4 {
+    width: 100%;
+}
+
+#profileAchievements>div,
+#profileFriends>div {
+    display: flex;
+    justify-content: left;
+}
+
+#profileFriends {
+    width: 100%;
+}
+
+.achievement-progress-bar-values {
+    display: flex;
+    color: #547e55;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.language-selectable {
+    margin: 15px;
+    border-radius: 15px;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid #83c787;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+}
+
+.language-selectable:hover {
+    color: white;
+    background-color: #83c787;
+}
+
+.language-selectable>p {
+    user-select: none;
+    margin: 0;
+}
+
+#profileSocials>div {
+    display: flex;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: color 0.25s ease-in-out;
+}
+
+#profileSocials>div>fa-icon {
+    margin-right: 5px;
+}
+
+#profileSocials>div>p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+::ng-deep .achievement-progress-bar>.dx-trackbar-wrapper>.dx-progressbar-range-container>.dx-trackbar-container {
+    height: 20px;
+    border-radius: 5px;
+}
+
+::ng-deep .achievement-progress-bar>.dx-trackbar-wrapper>.dx-progressbar-range-container>.dx-trackbar-container>.dx-trackbar-range {
+    border: 1px solid #83c787;
+    background-color: #83c787;
+    border-radius: 5px !important;
+}

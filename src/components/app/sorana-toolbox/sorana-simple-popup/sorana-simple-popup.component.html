@@ -1,0 +1,24 @@
+<div class="popup" [@changePopupState]="visible"
+    [ngStyle]="{'max-width': maxWidth > 0 ? maxWidth + 'px' : '350px', 'z-index': zIndex ? zIndex : 1}">
+    <div class="header">
+        <h4>{{title}}</h4>
+        <button class="btn button" (click)="isPopupShouldBeHidden.emit();">
+            <fa-icon size="lg" [icon]="closePopupIcon"></fa-icon>
+        </button>
+    </div>
+
+    <div class="body">
+        <p [innerHTML]="formattedContent"></p>
+    </div>
+
+    <div class="footer" *ngIf="buttonType === soranaPopupButtonTypeBase.Desicion; else readButton">
+        <button class="btn button" (click)="result.emit(true);">Yes</button>
+        <button class="btn button" (click)="result.emit(false);">No</button>
+    </div>
+
+    <ng-template #readButton>
+        <div class="footer">
+            <button class="btn button" (click)="isPopupShouldBeHidden.emit();">Ok</button>
+        </div>
+    </ng-template>
+</div>

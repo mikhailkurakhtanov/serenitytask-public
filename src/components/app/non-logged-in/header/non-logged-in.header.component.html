@@ -1,0 +1,23 @@
+<nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button">
+  <div class="container">
+    <div id="navbarLeftMenu">
+      <img [src]="windowWidth > 1000 ? '../../../../assets/img/logo.png' : '../../../../assets/img/icon.png'">
+      <fa-icon size="lg" [icon]="guideIcon" (click)="isGuideShouldBeVisible = true;"></fa-icon>
+    </div>
+
+    <div id="navbarRightMenu">
+      <a (click)="showLoginForm()">Grow</a>
+      <button class="btn button" [@changeRegisterButtonState]="playRegisterButtonAnimation"
+        (click)="showRegisterForm()" (mousedown)="playRegisterButtonAnimation = true;"
+        (mouseup)="playRegisterButtonAnimation = false;"
+        (mouseleave)="playRegisterButtonAnimation = false;">Plant</button>
+    </div>
+  </div>
+</nav>
+
+<popup-register [isRegisterFormVisible]="isRegisterFormVisible"
+  (isRegisterFormShouldBeHidden)="isRegisterFormVisible = false;"></popup-register>
+<popup-login [isLoginFormVisibleTrigger]="isLoginFormVisible" (isLoginFormShouldBeHidden)="isLoginFormVisible = false;">
+</popup-login>
+
+<guide [isPopupVisible]="isGuideShouldBeVisible" (isPopupShouldBeHidden)="isGuideShouldBeVisible = false;"></guide>

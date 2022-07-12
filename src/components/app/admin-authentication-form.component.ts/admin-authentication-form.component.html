@@ -1,0 +1,26 @@
+<dx-popup #adminAuthenticationFormPopup [visible]="true" [showTitle]="false" [showCloseButton]="false"
+          [width]="windowWidth > 400 ? 350 : 300" [height]="350" [closeOnOutsideClick]="false"
+          [animation]="{show: {duration: 1000, type: 'pop', from: {opacity: 0, scale: 0}, to: {opacity: 1, scale: 1}}}"
+          (onShowing)="applyPopupStyling();">
+  <div id="adminAuthenticationFormPopupContent" class="text-center"
+       [ngStyle]="{'visibility': isPopupShowing ? 'visible' : 'hidden'}">
+    <img id="logo" src="./assets/img/logo.png" alt=""/>
+    <div class="login-clean">
+      <form id="adminAuthenticationForm">
+        <div class="mb-3">
+          <input id="login" name="login" type="text" class="form-control" placeholder="Username or Email"
+                 [(ngModel)]="loginModel.login" (ngModelChange)="validateLoginModel()">
+          <input id="password" name="password" class="form-control" type="password"
+                 placeholder="Password" autocomplete="new-password"
+                 [(ngModel)]="loginModel.password" (ngModelChange)="validateLoginModel()">
+        </div>
+        <dx-tooltip target="#password" position="bottom"
+                    [visible]="showValidationError" [closeOnOutsideClick]="false">
+          <p class="popup-content">Incorrect login or password</p>
+        </dx-tooltip>
+        <button class="btn button d-block w-100"
+                [disabled]="!isLoginButtonActive" (click)="validateAdminData()">{{loginButtonTitle}}</button>
+      </form>
+    </div>
+  </div>
+</dx-popup>

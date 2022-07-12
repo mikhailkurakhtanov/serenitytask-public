@@ -1,0 +1,14 @@
+<div #popup class="popup" [@changePopupState]="visible" [ngStyle]="{
+        'width': width ? width + 'px' : 'unset',
+        'max-width': maxWidth ? maxWidth : 'none',
+        'height': height ? height + 'px' : 'unset'
+    }">
+    <div *ngIf="isTitleVisible || isCloseButtonVisible" class="header"
+        [ngStyle]="{'justify-content': isTitleVisible ? 'unset' : 'end' }">
+        <h3 *ngIf="isTitleVisible">{{title}}</h3>
+        <button *ngIf="isCloseButtonVisible" class="btn button" (click)="isPopupShouldBeHidden.emit();">
+            <fa-icon size="lg" [icon]="closePopupIcon"></fa-icon>
+        </button>
+    </div>
+    <ng-content select="div"></ng-content>
+</div>

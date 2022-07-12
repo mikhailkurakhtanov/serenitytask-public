@@ -1,0 +1,17 @@
+<sorana-popup [visible]="visible" [width]="350" [isTitleVisible]="false"
+    [isCloseOutsideClickAvailable]="false">
+
+    <div id="timeZonePickerHeader" *ngIf="!isTimeZonePickerVisibleOnWarning">
+        <button class="btn button" (click)="isPopupShouldBeHidden.emit();">
+            <fa-icon size="lg" [icon]="closePopupIcon"></fa-icon>
+        </button>
+    </div>
+    <div id="timeZonePickerTitle">
+        <h4>Select a time zone</h4>
+    </div>
+    <div id="timeZones">
+        <div class="time-zone" *ngFor="let timeZone of timeZones" (click)="selectTimeZone(timeZone)">
+            <p [innerText]="timeZone.displayName"></p>
+        </div>
+    </div>
+</sorana-popup>

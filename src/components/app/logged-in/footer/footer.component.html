@@ -1,0 +1,15 @@
+<div id="footerAuthorized">
+    <p>© CS FULSTACK, 2022. All rights reserved. SerenityTask PRE-ALPHA v.1.1&nbsp;
+        <span (click)="isChangelogPopupVisible = true;">(What's new?)</span>
+    </p>
+</div>
+
+<sorana-popup [title]="'Changelog'" [width]="750" [visible]="isChangelogPopupVisible"
+    (isPopupShouldBeHidden)="isChangelogPopupVisible = false;" [isCloseButtonVisible]="true">
+    <div *ngFor="let item of changelog">
+        <h4 [innerText]="item.version + ' (' + item.displayDate + ')'"></h4>
+        <ul>
+            <li *ngFor="let change of item.changesItems">{{change}}</li>
+        </ul>
+    </div>
+</sorana-popup>

@@ -1,0 +1,61 @@
+#plantHeader > h2 {
+  border-bottom: 3px solid rgb(208,238,197);
+  margin-bottom: 10px;
+}
+
+#plantHeader > h4 {
+  border-bottom-width: 3px;
+  border-bottom-color: rgb(208,238,197);
+  margin-bottom: 5px;
+}
+
+#plantMenuActions > img {
+  width: 35px;
+  margin-right: 15px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.current-plant-level {
+  height: 200px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+#experienceProgressBarValues {
+  display: flex;
+  color: rgb(84,126,85);
+}
+
+#experienceProgressBarValues > div {
+  margin-left: auto;
+}
+
+#noLivingPlantContainer > button, #plantIsDeadContainer > button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+::ng-deep #experienceProgressBar > .dx-trackbar-wrapper > .dx-progressbar-range-container > .dx-trackbar-container {
+  height: 20px;
+  border-radius: 5px;
+}
+
+::ng-deep #experienceProgressBar > .dx-trackbar-wrapper > .dx-progressbar-range-container > .dx-trackbar-container > .dx-trackbar-range {
+  border: 1px solid #83c787;
+  background-color: #83c787;
+  border-radius: 5px !important;
+}
+
+::ng-deep .dx-popup-content {
+  padding: 10px;
+}
+
+@media all and (max-width: 991px) {
+  .current-plant-level {
+    height: 250px;
+    width: auto;
+    margin-top: 15px;
+    margin-bottom: 25px;
+  }
+}

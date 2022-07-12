@@ -1,0 +1,15 @@
+<sorana-popup [visible]="isRegisterResultPopupVisible" [width]="350" [isTitleVisible]="false"
+  [isCloseButtonVisible]="false" [isCloseOutsideClickAvailable]="true"
+  (isPopupShouldBeHidden)="isRegisterFormShouldBeHidden.emit()">
+  <div class="login-clean">
+    <form class="text-center" style="padding: 15px;">
+      <div id="registerResult" class="mb-3">
+        <h3>Your account has been created</h3>
+        <p>Check {{createdUserEmail}} and click on confirmation link to activate your account</p>
+        <button class="btn button d-block w-100" [@changeConfirmButtonState]="playConfirmButtonAnimation"
+          (mousedown)="playConfirmButtonAnimation = true;" (mouseleave)="playConfirmButtonAnimation = false;"
+          (mouseup)="playConfirmButtonAnimation = false;" (click)="isRegisterResultPopupVisible = false;">Close</button>
+      </div>
+    </form>
+  </div>
+</sorana-popup>

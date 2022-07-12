@@ -1,0 +1,237 @@
+<div id="chatWidget" *ngIf="isWidgetVisible; else showChatButton">
+    <ng-component *ngIf="friendsInfo.length > 0; then mainChatSections; else noFriends"></ng-component>
+
+    <ng-template #mainChatSections>
+        <div id="mainChatSection" *ngIf="selectedChat === undefined; else activeChat">
+            <div id="onlineFriends" *ngIf="getFriendsOnlineNumber() > 0; else noFriendsOnline">
+                <div *ngFor="let friendInfo of friendsInfo" [hidden]="!friendInfo.isUserOnline"
+                    (click)="selectFriend(friendInfo.friendId)">
+                    <img [src]="friendInfo.avatar">
+                </div>
+            </div>
+
+            <hr>
+
+            <div id="chats" *ngIf="chatsPreviews.length > 0; else noChats">
+                <div *ngFor="let chatPreview of chatsPreviews" (click)="selectFriend(chatPreview.friendInfo.friendId);">
+                    <img [src]="chatPreview.friendInfo.avatar">
+                    <p>{{chatPreview.friendInfo.name}}
+                        <br>
+                        <span>{{getChatPreviewMessage(chatPreview.sessionRequests)}}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="hide-widget-button" (click)="isWidgetVisible = false;">
+                <fa-icon size="lg" [icon]="hideWidgetIcon"></fa-icon>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #noFriends>
+        <div style="text-align: center;">
+            <h3>There is no users in your friend list</h3>
+            <p>To start using SerenityTask with someone you need to add a friend first.
+                Click on Users button on the top and start searching your study partner</p>
+            <div class="hide-widget-button" (click)="isWidgetVisible = false;">
+                <fa-icon size="lg" [icon]="hideWidgetIcon"></fa-icon>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #noFriendsOnline>
+        <div style="text-align: center;">
+            <p>No friends online</p>
+        </div>
+    </ng-template>
+
+    <ng-template #noChats>
+        <div style="text-align: center;">
+            <p>Start planning study sessions and be disciplined by selecting online friend from the top panel</p>
+        </div>
+    </ng-template>
+</div>
+
+
+<ng-template #showChatButton>
+    <div style="text-align: right" [hidden]="!isComponentLoaded">
+        <button id="showChatWidgetButton" class="btn button" (click)="isWidgetVisible = true">
+            <fa-layers size="lg">
+                <fa-icon [icon]="showWidgetIcon"></fa-icon>
+                <fa-layers-text style="color: black;"
+                    [content]="getFriendsOnlineNumber() > 0 ? getFriendsOnlineNumber().toString() : ''">
+                </fa-layers-text>
+            </fa-layers>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #activeChat>
+    <div class="active-chat-header" *ngIf="selectedChat">
+        <div class="close-active-chat-button" (click)="selectedChat = undefined;">
+            <fa-icon size="lg" [icon]="closeActiveChatIcon"></fa-icon>
+        </div>
+        <div class="active-chat-friend-info">
+            <img [src]="selectedChat.friendInfo.avatar">
+            <h5 [innerText]="selectedChat.friendInfo.name"></h5>
+        </div>
+        <div #chatMenuButton class="active-chat-menu-button"
+            (click)="selectedChat.isChatMenuVisible = !selectedChat.isChatMenuVisible;">
+            <fa-icon size="lg" [icon]="activeChatMenuIcon"></fa-icon>
+        </div>
+
+        <dx-popover position="bottom" [target]="chatMenuButton" [visible]="selectedChat.isChatMenuVisible"
+            (onHidden)="selectedChat.isChatMenuVisible = false;">
+            <dxo-animation>
+                <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+                <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+            </dxo-animation>
+
+            <div class="selected-chat-social" *ngIf="selectedChat.friendInfo.telegramUsername"
+                (click)="copyTextToClipboard(selectedChat.friendInfo.telegramUsername)">
+                <fa-icon size="lg" [icon]="telegramIcon"></fa-icon>
+                <p [innerText]="selectedChat.friendInfo.telegramUsername"></p>
+            </div>
+
+            <div class="selected-chat-social" *ngIf="selectedChat.friendInfo.discordTag"
+                (click)="copyTextToClipboard(selectedChat.friendInfo.discordTag)">
+                <fa-icon size="lg" [icon]="discordIcon"></fa-icon>
+                <p [innerText]="selectedChat.friendInfo.discordTag"></p>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+                <button class="btn button" (click)="removeFriend(selectedChat.friendInfo.friendId)"
+                    [innerText]="'Remove ' + selectedChat.friendInfo.name + ' from friends'"></button>
+            </div>
+        </dx-popover>
+    </div>
+
+    <div class="active-chat-messages" *ngIf="selectedChat?.sessionRequests; else noChatMessages">
+        <div *ngFor="let chatMessage of selectedChat?.sessionRequests"
+            [ngClass]="chatMessage.senderId === currentUser?.id ? 'sended-message' : 'received-message'">
+            <div class="message-sender">
+                <img [src]="getMessageSenderAvatarPath(chatMessage)">
+                <p>{{getMessageSenderName(chatMessage)}}</p>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+                <fa-icon [icon]="clockIcon" size="4x" style="color: #547e55;"></fa-icon>
+                <h4 style="margin: 0; padding-left: 5px;">{{getSessionRequestDate(chatMessage.start)}}</h4>
+            </div>
+            <p style="padding-top: 15px;"><b>Duration:</b> {{getSessionRequestDurationFormatted(chatMessage.duration)}}
+            </p>
+            <p #receiverRequestMessage *ngIf="chatMessage.receiverId === currentUser.id; else senderRequestMessage"
+                style="padding-top: 15px;">Do you want to focus at this time?</p>
+            <ng-template #senderRequestMessage>
+                <p style="padding-top: 15px;">Waiting the answer from {{selectedChat?.friendInfo?.name}}...</p>
+            </ng-template>
+            <hr>
+            <div #receiverSessionRequestActions
+                *ngIf="chatMessage.receiverId === currentUser.id; else senderSessionRequestActions"
+                style="display: flex; margin-top: 15px; justify-content: space-around;">
+                <button class="btn button" (click)="createSession(chatMessage)">Accept</button>
+                <button class="btn button" (click)="rejectSessionRequest(chatMessage.id)">Reject</button>
+            </div>
+            <ng-template #senderSessionRequestActions>
+                <div style="display: flex; margin-top: 15px; justify-content: space-around;">
+                    <button class="btn button" (click)="rejectSessionRequest(chatMessage.id)">Decline</button>
+                </div>
+            </ng-template>
+
+        </div>
+    </div>
+
+    <ng-template #noChatMessages>
+        <div id="chatGuide">
+            <h5>Start planning focus sessions by following these steps:</h5>
+            <div class="chat-action-button-guide">
+                <fa-icon size="lg" [icon]="chooseSessionDateIcon"></fa-icon>
+                <p>Pick date and time of your study session</p>
+            </div>
+            <div class="chat-action-button-guide">
+                <fa-icon size="lg" [icon]="clockIcon"></fa-icon>
+                <p>Set a duration of study session</p>
+            </div>
+            <div class="chat-action-button-guide">
+                <fa-icon size="lg" [icon]="sendMessageIcon"></fa-icon>
+                <p>Send a request to your friend for confirmation</p>
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="active-chat-actions" style="margin-top: 15px; display: flex; justify-content: space-evenly;">
+        <button class="btn button" (click)="newSessionPicker.instance.open()">
+            <fa-icon size="lg" [icon]="chooseSessionDateIcon"></fa-icon>
+        </button>
+        <button id="selectSessionTimeButton" class="btn button" [disabled]="!newSessionRequest?.start"
+            (click)="isSelectTimePickerVisible = true;">
+            <fa-icon size="lg" [icon]="clockIcon"></fa-icon>
+        </button>
+        <button class="btn button" [disabled]="!newSessionRequest?.duration || newSessionRequest?.duration === 0"
+            (click)="applyNewSessionConfirmationPopupContent();">
+            <fa-icon size="lg" [icon]="sendMessageIcon"></fa-icon>
+        </button>
+    </div>
+
+    <dx-date-box id="newSessionPicker" #newSessionPicker [value]="sessionDate" [min]="currentDate" type="datetime"
+        (onOpened)="applyDatePickerCustomization(newSessionPicker)"
+        (onValueChanged)="applyNewSessionRequestDate($event)">
+    </dx-date-box>
+
+    <dx-popover #newSessionDurationPicker target="#selectSessionTimeButton" position="top" [showTitle]="false"
+        [visible]="isSelectTimePickerVisible" (onHidden)="isSelectTimePickerVisible = false;">
+        <dxo-animation>
+            <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+            <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <div style="display: flex; padding-bottom: 15px; justify-content: center; user-select: none;">
+            <div class="select-session-hours" style="display: flex; align-items: center;">
+                <h3 style="margin: 0; width: 35px;">
+                    {{selectedSessionHoursForRequest < 10 ? '0' + selectedSessionHoursForRequest.toString() :
+                        selectedSessionHoursForRequest}} </h3>
+                        <div class="select-session-time-buttons" style="display: grid; margin-left: 5px;">
+                            <fa-icon size="lg" [icon]="riseTimeIcon"
+                                style="color: #83c787; cursor: pointer; padding-bottom: 5px;"
+                                (click)="changeSessionRequestHours(true)"></fa-icon>
+                            <fa-icon size="lg" [icon]="reduceTimeIcon" style="color: #83c787; cursor: pointer;"
+                                (click)="changeSessionRequestHours(false)">
+                            </fa-icon>
+                        </div>
+                        <p style="color: #c8c8c8; margin-left: 5px;">H</p>
+            </div>
+            <div class="select-session-minutes" style="margin-left: 15px; display: flex; align-items: center;">
+                <h3 style="margin: 0; width: 35px;">
+                    {{selectedSessionMinutesForRequest < 10 ? '0' + selectedSessionMinutesForRequest.toString() :
+                        selectedSessionMinutesForRequest}} </h3>
+                        <div class="select-session-time-buttons" style="display: grid; margin-left: 5px;">
+                            <fa-icon size="lg" [icon]="riseTimeIcon"
+                                style="color: #83c787; cursor: pointer; padding-bottom: 5px;"
+                                (click)="changeSessionRequestMinutes(true)"></fa-icon>
+                            <fa-icon size="lg" [icon]="reduceTimeIcon" style="color: #83c787; cursor: pointer;"
+                                (click)="changeSessionRequestMinutes(false)">
+                            </fa-icon>
+                        </div>
+                        <p style="color: #c8c8c8; margin-left: 5px;">M</p>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-evenly;">
+            <button class="btn button"
+                [disabled]="selectedSessionMinutesForRequest === 0 && selectedSessionHoursForRequest === 0"
+                (click)="applyNewSessionRequestDuration(); newSessionDurationPicker.instance.hide()">Apply</button>
+            <button class="btn button"
+                [disabled]="selectedSessionMinutesForRequest === 0 && selectedSessionHoursForRequest === 0"
+                (click)="rollbackNewSessionRequestDuration()">
+                <fa-icon size="lg" [icon]="undoIcon"></fa-icon>
+            </button>
+        </div>
+    </dx-popover>
+
+    <sorana-simple-popup [maxWidth]="300" [title]="'Confirmation'" [content]="newSessionRequestConfirmationMessage"
+        [visible]="isNewSessionRequestConfirmationPopupVisible"
+        (result)="sendSessionDateRequest($event, selectedChat?.friendInfo)"
+        (isPopupShouldBeHidden)="isNewSessionRequestConfirmationPopupVisible = false;">
+    </sorana-simple-popup>
+</ng-template>
+
+<sorana-toast-notification [content]="toastNotificationContent" [visible]="isToastNotificationVisible" [width]="150">
+</sorana-toast-notification>

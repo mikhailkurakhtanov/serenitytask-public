@@ -1,0 +1,11 @@
+<div *ngIf="isTokenChecked; else loadingScreen">
+  <non-logged-in *ngIf="!isUserAuthorized; else loggedIn"></non-logged-in>
+  <ng-template #loggedIn>
+    <logged-in></logged-in>
+  </ng-template>
+</div>
+<ng-template #loadingScreen>
+  <div id="loadingTitle">
+    <h3>Loading...</h3>
+  </div>
+</ng-template>

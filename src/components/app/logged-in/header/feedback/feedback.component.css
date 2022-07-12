@@ -1,0 +1,33 @@
+#reportAProblemForm>input,
+#reportAProblemForm>textarea {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #c8c8c8;
+}
+
+#reportAProblemForm>textarea:focus {
+    outline: none !important;
+    border: 1px solid #c8c8c8;
+    box-shadow: none !important;
+}
+
+#reportAProblemForm>div:first-of-type {
+    text-align: center;
+    padding: 15px 0;
+}
+
+#reportAProblemForm>div:first-of-type>p {
+    margin: 0;
+}
+
+#reportAProblemForm>div:last-of-type {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#reportAProblemForm>div:last-of-type>button {
+    width: 150px;
+}

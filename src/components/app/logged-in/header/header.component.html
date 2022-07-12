@@ -1,0 +1,57 @@
+<div id="navbar" class="container">
+  <div id="logoAndMenu">
+    <img src="assets/img/authorized/workspace/icon.png">
+    <p [ngClass]="{'active': activeSection === sectionTypeBase.Workspace}"
+      (click)="activeSection = sectionTypeBase.Workspace; sectionTypeToEmit.emit(activeSection);">Tasks</p>
+    <p [ngClass]="{'active': activeSection === sectionTypeBase.UserSearch}"
+      (click)="activeSection = sectionTypeBase.UserSearch; sectionTypeToEmit.emit(activeSection);">Users</p>
+  </div>
+
+  <div id="additionsAndUserMenu" *ngIf="currentUser">
+    <div #notificationsButton (click)="isUserNotificationsVisible = !isUserNotificationsVisible;">
+      <fa-icon size="lg" [icon]="notificationIcon"
+        [ngStyle]="{'color': isUserNotificationsVisible ? '#83c787' : '#547e55'}"></fa-icon>
+    </div>
+
+    <div id="reportABugButton" #reportABugButton (click)="isReportABugPopupVisible = true;">
+      <fa-icon size="lg" [icon]="bugIcon" [ngStyle]="{'color': isReportABugPopupVisible ? '#83c787' : '#547e55'}">
+      </fa-icon>
+    </div>
+
+    <div id="userAvatarAndName" (click)="isUserMenuVisible = true;">
+      <img [src]="getProfilePicturePath()">
+      <p>{{currentUser?.name}}</p>
+    </div>
+
+    <user-notifications *ngIf="currentUser && currentUser.userDetails && currentUser.userDetails.timeZone"
+      [notificationsButtonPosition]="notificationsButton.getBoundingClientRect().x"
+      [currentUserTimeZone]="currentUser.userDetails.timeZone.timeZoneIdIANA"
+      [@changeUserNotificationsState]="isUserNotificationsVisible"
+      (isNewNotificationReceived)="isUserNotificationsVisible = true"
+      (isNotificationsShouldBeHidden)="isUserNotificationsVisible = false;">
+    </user-notifications>
+
+    <dx-popover target="#userAvatarAndName" position="bottom" [width]="150" [showTitle]="false"
+      [visible]="isUserMenuVisible" (onShowing)="applyUserMenuStyling()" (onHidden)="isUserMenuVisible = false;">
+      <dxo-animation>
+        <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+        <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+      </dxo-animation>
+      <div id="userMenuContent" *dxTemplate="let data = model; of: 'content'">
+        <a *ngIf="windowWidth >= 1000" class="dropdown-item"
+          (click)="isProfileSettingsPopupVisible = true; isUserMenuVisible = false;">Profile</a>
+        <a *ngIf="windowWidth >= 1000" class="dropdown-item"
+          (click)="isAccountSettingsPopupVisible = true; isUserMenuVisible = false;">Account</a>
+        <a class="dropdown-item" (click)="logout()">Logout</a>
+      </div>
+    </dx-popover>
+  </div>
+
+  <account-settings [isAccountSettingsPopupVisible]="isAccountSettingsPopupVisible" [receivedCurrentUser]="currentUser"
+    (isAccountSettingsPopupShouldBeHidden)="isAccountSettingsPopupVisible = false;"></account-settings>
+  <profile [isComponentVisible]="isProfileSettingsPopupVisible" [receivedCurrentUser]="currentUser"
+    (isComponentShouldBeHidden)="isProfileSettingsPopupVisible = false;" (updatedCurrentUser)="currentUser = $event">
+  </profile>
+
+  <feedback [isPopupVisible]="isReportABugPopupVisible" (isPopupShouldBeHidden)="isReportABugPopupVisible = false;">
+  </feedback>

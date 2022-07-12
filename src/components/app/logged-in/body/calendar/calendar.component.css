@@ -1,0 +1,95 @@
+#calendar {
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid #83c787;
+    padding: 15px;
+}
+
+::ng-deep #calendar>#calendarTaskInterval {
+    text-align: left;
+    margin: 0;
+    padding-bottom: 15px;
+}
+
+.planned-session-info {
+    align-items: center;
+    display: flex;
+    padding-bottom: 15px;
+}
+
+::ng-deep #calendar>.planned-session-info:last-of-type {
+    padding-bottom: 0;
+}
+
+.planned-session-info>p:first-of-type {
+    padding-right: 15px;
+    white-space: nowrap;
+}
+
+.planned-session-info>p:last-of-type {
+    width: 100%;
+}
+
+.planned-session-info>.planned-session-info-participants>img {
+    width: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.planned-session-info>.planned-session-info-participants>div {
+    display: flex;
+    align-items: center;
+}
+
+.planned-session-info>.planned-session-info-participants>div>img {
+    width: 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.planned-session-actions {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.planned-session-actions>button {
+    border: none;
+    background: none;
+    margin-right: 10px;
+    font-weight: bold;
+    padding: 0;
+    color: #83c787;
+    transition: color 0.25s ease-in-out;
+    font-family: 'Gilroy-Medium', serif;
+}
+
+.planned-session-actions>button:hover {
+    color: #547e55;
+}
+
+.planned-session-actions>button:disabled {
+    color: #c8c8c8;
+}
+
+.planned-session-actions>button:last-of-type {
+    margin-right: 0;
+}
+
+#noPlannedSessions {
+    display: flex;
+    align-items: center;
+}
+
+#noPlannedSessions>fa-icon {
+    color: #547e55;
+    padding-right: 15px;
+}
+
+#noPlannedSessions>h5 {
+    margin: 0;
+}

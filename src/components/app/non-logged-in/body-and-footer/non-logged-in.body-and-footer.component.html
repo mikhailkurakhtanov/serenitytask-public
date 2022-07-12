@@ -1,0 +1,73 @@
+<div id="banner" class="non-logged-in-section">
+    <div #desktopBanner *ngIf="windowWidth > 1000; else mobileBanner">
+        <img src="../../../../assets/img/banner.png" alt="">
+        <h1>Plant a seed. See your growth.</h1>
+    </div>
+    <ng-template #mobileBanner>
+        <div>
+            <h1>Welcome to the</h1>
+            <img src="../../../../assets/img/logo.png" alt="">
+        </div>
+    </ng-template>
+
+    <p>SerenityTask is an app that was built to help you achieve your goals and live meaningful life.</p>
+</div>
+
+<div id="features" class="container text-center non-logged-in-section">
+    <h1>Features</h1>
+    <div class="row">
+        <div id="featureGamification" class="col-sm column-mobile feature" (mouseover)="applyFeaturesStyling($event)"
+            (mouseleave)="rollbackFeaturesStyling()">
+            <img src="assets/img/gamification.png" alt="">
+            <h3>Unique gaming experience</h3>
+            <p>
+                Grow a cute plant from scratch completing tasks and getting achievements.
+                Complete tasks before deadline to make your plant grow and don't let it die.
+                Each action can afford on your plant as the real life on your mental health
+            </p>
+        </div>
+        <div id="featureHealth" class="col-sm column-mobile feature" (mouseover)="applyFeaturesStyling($event)"
+            (mouseleave)="rollbackFeaturesStyling()">
+            <img src="assets/img/reduceStress.png" alt="">
+            <h3>Be more disciplined and consistent</h3>
+            <p>
+                Break your procrastination working alone by joining focus sessions with your friends to discipline each
+                other and form good study habits on the road to your goals
+            </p>
+        </div>
+        <div id="featureTracking" class="col-sm column-mobile feature" (mouseover)="applyFeaturesStyling($event)"
+            (mouseleave)="rollbackFeaturesStyling()">
+            <img src="assets/img/trackDeadlines.png" alt="">
+            <h3>Time and deadlines tracking</h3>
+            <p>
+                Time is the most valuable thing in our life. See how much time do you afford on each task.
+                Prioritize by smart way and don't let the deadlines expire
+            </p>
+        </div>
+        <div id="featureFlexibility" class="col-sm column-mobile feature" (mouseover)="applyFeaturesStyling($event)"
+            (mouseleave)="rollbackFeaturesStyling()">
+            <img src="assets/img/planTasks.png" alt="">
+            <h3>Flexible task management</h3>
+            <p>
+                Use your favorite task management apps' functions to store all necessary information for each task
+                in one place. Planning, prioritizing, time tracking, notifications and more -
+                in one place (also supports GoogleCalendar integration)
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center non-logged-in-section">
+    <h1>Plant your first tree today</h1>
+    <button class="btn button" role="button" [@changeRegisterButtonState]="playRegisterButtonAnimation"
+        (click)="showRegisterForm()" (mousedown)="playRegisterButtonAnimation = true;"
+        (mouseup)="playRegisterButtonAnimation = false;" (mouseleave)="playRegisterButtonAnimation = false;">Plant a
+        seed</button>
+</div>
+
+<footer class="text-center">
+    <p>© <a href="https://csfullstack.com/" target="_blank">CS FULLSTACK</a>, 2021. All rights reserved.</p>
+</footer>
+
+<popup-register [isRegisterFormVisible]="isRegisterFormVisible"
+    (isRegisterFormShouldBeHidden)="isRegisterFormVisible = false;"></popup-register>

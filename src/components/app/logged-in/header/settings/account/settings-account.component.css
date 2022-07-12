@@ -1,0 +1,79 @@
+#accountSettingsHeader {
+  display: flex;
+}
+
+#accountSettingsTitle {
+  margin-bottom: 0;
+  margin-right: 15px;
+  width: 100%;
+  border: 0;
+}
+
+#closeAccountSettingsButton {
+  margin-left: auto;
+  display: inline-block;
+}
+
+#closeAccountSettingsButton>fa-icon {
+  cursor: pointer;
+  display: inline-block;
+}
+
+#accountSettingsMenu {
+  max-width: 50px;
+  min-height: 300px;
+  padding-bottom: 15px;
+  border-right: rgb(200, 200, 200) 1px solid;
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+#mainAccountSettingsMenuActions>fa-icon,
+#additionalAccountSettingsMenuActions>fa-icon {
+  font-size: 15px;
+}
+
+::ng-deep #mainAccountSettingsMenuActions>div>fa-icon>svg,
+::ng-deep #additionalAccountSettingsMenuActions>fa-icon>svg {
+  width: 20px;
+}
+
+#accountSettingsMenu>* {
+  color: rgb(131, 199, 135);
+  cursor: pointer;
+}
+
+.account-settings-menu-action {
+  padding-bottom: 15px;
+}
+
+.account-settings-menu-action:last-of-type {
+  padding-bottom: 0;
+}
+
+.account-settings-section-body {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.dx-field>.account-settings-field-label {
+  font-family: 'Gilroy-Bold', serif;
+  font-size: 15px;
+}
+
+.settings-notification {
+  border-radius: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.settings-notification>p,
+.tooltip-content {
+  margin-bottom: 0;
+}
+
+.settings-notification>p {
+  cursor: pointer;
+}

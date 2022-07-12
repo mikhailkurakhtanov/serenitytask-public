@@ -1,0 +1,196 @@
+<sorana-popup [isCloseButtonVisible]="true" [title]="'Profile'" [visible]="isComponentVisible" [width]="750"
+    (isPopupShouldBeHidden)="this.isComponentShouldBeHidden.emit();">
+    <div id="profilePopupBody" *ngIf="currentUser.userDetails">
+        <div class="row">
+            <div class="col-md-6" style="width: 25%;">
+                <div id="profilePicture" (mouseover)="changeProfilePictureStatus(1)"
+                    (mouseleave)="changeProfilePictureStatus(0)">
+                    <label for="profilePictureInput">
+                        <img alt="" [src]="getProfilePicturePath()">
+                        <p #profilePictureStatus></p>
+                    </label>
+                    <input id="profilePictureInput" type="file" (change)="updateProfilePicture($event)">
+                </div>
+                <div id="profileSocials">
+                    <div #userTelegram
+                        [ngStyle]="{'color': currentUser.userDetails.telegramUsername ? 'black' : '#c8c8c8'}"
+                        (click)="isTelegramEditorVisible = true;">
+                        <fa-icon size="lg" [icon]="telegramIcon"></fa-icon>
+                        <p [innerText]="currentUser.userDetails.telegramUsername
+                            ? currentUser.userDetails.telegramUsername : 'Not stated'"></p>
+                    </div>
+                    <div #userDiscord [ngStyle]="{'color': currentUser.userDetails.discordTag ? 'black' : '#c8c8c8'}"
+                        (click)="isDiscordEditorVisible = true;">
+                        <fa-icon size="lg" [icon]="discordIcon"></fa-icon>
+                        <p [innerText]="currentUser.userDetails.discordTag
+                            ? currentUser.userDetails.discordTag : 'Not stated'"></p>
+                    </div>
+
+                    <dx-popover position="bottom" [target]="userTelegram" [visible]="isTelegramEditorVisible"
+                        [width]="200" [closeOnOutsideClick]="false">
+                        <dxo-animation>
+                            <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+                            <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+                        </dxo-animation>
+
+                        <input #userTelegramInput style="width: 100%; padding: 10px; border: none; font-size: 16px;"
+                            [value]="currentUser.userDetails.telegramUsername
+                            ? currentUser.userDetails.telegramUsername : ''" [placeholder]="'Your username...'">
+
+                        <div style="display: flex; justify-content: space-around;">
+                            <button class="btn button" (click)="currentUser.userDetails.telegramUsername = userTelegramInput.value;
+                                    isTelegramEditorVisible = false;
+                                    userTelegramInput.value = currentUser.userDetails.telegramUsername;
+                                    applyUserDetailsChanges();">Save</button>
+                            <button class="btn button" (click)="isTelegramEditorVisible = false;
+                                userTelegramInput.value = currentUser.userDetails.telegramUsername;">Cancel</button>
+                        </div>
+                    </dx-popover>
+
+                    <dx-popover position="bottom" [target]="userDiscord" [visible]="isDiscordEditorVisible"
+                        [width]="200" [closeOnOutsideClick]="false">
+                        <dxo-animation>
+                            <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+                            <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+                        </dxo-animation>
+
+                        <input #userDiscordInput style="width: 100%; padding: 10px; border: none; font-size: 16px;"
+                            [value]="currentUser.userDetails.discordTag
+                            ? currentUser.userDetails.discordTag : ''" [placeholder]="'Your tag...'">
+
+                        <div style="display: flex; justify-content: space-around;">
+                            <button class="btn button" (click)="currentUser.userDetails.discordTag = userDiscordInput.value;
+                            isDiscordEditorVisible = false; userDiscordInput.value = currentUser.userDetails.discordTag;
+                            applyUserDetailsChanges();">Save</button>
+                            <button class=" btn button" (click)="isDiscordEditorVisible = false;
+                                userDiscordInput.value = currentUser.userDetails.discordTag;">Cancel</button>
+                        </div>
+                    </dx-popover>
+                </div>
+            </div>
+
+            <div id="profileAbout" class="col">
+                <div id="profileName" [ngStyle]="{'align-items': isProfileNameEditable ? 'center' : 'flex-start'}">
+                    <input #profileName [ngModel]="currentUser.name"
+                        [ngStyle]="{'width': profileName.value.length + 'ch'}" [maxLength]="25"
+                        (click)="isProfileNameEditable = true; profileName.focus();">
+                    <fa-icon class="profile-edit-icon" size="sm" [icon]="editIcon" *ngIf="!isProfileNameEditable">
+                    </fa-icon>
+                    <fa-icon class="profile-confirm-icon" size="lg" *ngIf="isProfileNameEditable"
+                        [icon]="confirmEditIcon" (click)="applyUserChanges();"></fa-icon>
+                    <fa-icon class="profile-cancel-icon" size="lg" *ngIf="isProfileNameEditable" [icon]="cancelEditIcon"
+                        (click)="rollbackNameChanges()"></fa-icon>
+                </div>
+
+                <div id="profileAge">
+                    <p>Age: </p>
+                    <input #profileAge maxLength="2" placeholder="specify" [ngModel]="currentUser.userDetails.age"
+                        (click)="isProfileAgeEditable = true; profileAge.focus();">
+                    <fa-icon class="profile-edit-icon" size="sm" [icon]="editIcon" *ngIf="!isProfileAgeEditable">
+                    </fa-icon>
+                    <fa-icon class="profile-confirm-icon" size="lg" *ngIf="isProfileAgeEditable"
+                        [icon]="confirmEditIcon"
+                        (click)="currentUser.userDetails.age = profileAge.value; applyUserDetailsChanges();"></fa-icon>
+                    <fa-icon class="profile-cancel-icon" size="lg" *ngIf="isProfileAgeEditable" [icon]="cancelEditIcon"
+                        (click)="rollbackAgeChanges()"></fa-icon>
+                </div>
+
+                <div (click)="currentUser.userDetails.isLanguagesSelectorVisible = true;">
+                    <p>Languages: <span [innerText]="currentUser?.userDetails?.languages"></span></p>
+                </div>
+
+                <div id="profileTimeZone" (click)="isTimeZonePickerVisible = true;">
+                    <p>Time zone: <span>{{currentUser?.userDetails?.timeZone?.displayName}}</span></p>
+                    <fa-icon class="profile-edit-icon" size="sm" [icon]="editIcon"></fa-icon>
+                </div>
+
+                <div id="profileAboutMe">
+                    <p>Interests:</p>
+                    <div>
+                        <button class="btn button profile-interest"
+                            *ngFor="let interest of currentUser.userDetails?.interestsArray; let index = index"
+                            (click)="removeInterest(interest, index)">{{interest}}</button>
+                        <div id="interestsActions">
+                            <button #addInterestButton id="addInterestButton"
+                                class="btn button profile-interests-action"
+                                (click)="addSpecifyInterestElement(); addInterestButton.blur();">
+                                <p>{{isDOMContainsNewInterestFormClass ? 'Done' : 'Add'}}</p>
+                            </button>
+                            <button class="btn button profile-interests-action"
+                                *ngIf="isDOMContainsNewInterestFormClass" (click)="removeNewInterestFormFromDOM()">
+                                <p>Cancel</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="achievementsAndFriends">
+                    <div id="profileAchievements" *ngIf="currentUser?.userDetails?.achievements">
+                        <h4>Achievements</h4>
+                        <div style="padding-bottom: 15px; display: flex;">
+                            <div *ngFor="let achievement of currentUser.userDetails.achievements">
+                                <img [src]="achievement.type.icon"
+                                    [ngStyle]="{'opacity': achievement.value === achievement.type.goal ? '1' : '0.25'}"
+                                    style="width: 50px; border-radius: 15px; margin-right: 15px; cursor: pointer;"
+                                    (click)="achievement.isDetailsVisible = true;">
+
+                                <sorana-popup [width]="350" [visible]="achievement.isDetailsVisible"
+                                    [isTitleVisible]="false" [isCloseButtonVisible]="true"
+                                    (isPopupShouldBeHidden)="achievement.isDetailsVisible = false;">
+                                    <div>
+                                        <div style="text-align: center; padding-bottom: 15px;">
+                                            <h5 [innerText]="getAchievementDisplayName(achievement.id)"></h5>
+                                            <p [innerText]="achievement.type.description" style="font-style: italic;">
+                                            </p>
+                                        </div>
+                                        <div style="display: flex; justify-content: center;">
+                                            <img [src]="achievement.type.icon"
+                                                style="width: 50px; border-radius: 15px; margin-right: 15px;">
+                                            <div style="width: 100%;">
+                                                <dx-progress-bar class="achievement-progress-bar" width="100%"
+                                                    [showStatus]="false" [max]="achievement.type.goal" [min]="0"
+                                                    [value]="achievement.value">
+                                                </dx-progress-bar>
+                                                <div class="achievement-progress-bar-values">
+                                                    <p [innerText]="achievement.value"></p>
+                                                    <p [innerText]="achievement.type.goal"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </sorana-popup>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</sorana-popup>
+
+<sorana-popup [width]="toastNotificationWidth"
+    [visible]="currentUser.userDetails ? currentUser.userDetails.isLanguagesSelectorVisible : false"
+    [isCloseButtonVisible]="true" [isTitleVisible]="false"
+    (isPopupShouldBeHidden)="currentUser.userDetails.isLanguagesSelectorVisible = false; applyUserDetailsChanges()">
+    <div *ngIf="currentUser.userDetails">
+        <h5 tyle="text-align: center;">Select language</h5>
+        <div class="language-selectable" [ngStyle]="{'background-color': currentUser.userDetails.languagesArray.indexOf('English') >= 0 ? '#83c787' : 'white',
+                        'color': currentUser.userDetails.languagesArray.indexOf('English') >= 0 ? 'white' : 'black'}"
+            (click)="selectLanguage('English')">
+            <p>English</p>
+        </div>
+        <div class="language-selectable" [ngStyle]="{'background-color': currentUser.userDetails.languagesArray.indexOf('Russian') >= 0 ? '#83c787' : 'white', 
+                        'color': currentUser.userDetails.languagesArray.indexOf('Russian') >= 0 ? 'white' : 'black'}"
+            (click)="selectLanguage('Russian')">
+            <p>Russian</p>
+        </div>
+    </div>
+</sorana-popup>
+
+<edit-time-zone-popup [isTimeZonePickerVisible]="isTimeZonePickerVisible" [isTimeZonePickerVisibleOnWarning]="false"
+    (selectedTimeZoneToEmit)="currentUser.userDetails.timeZone = $event; applyUserDetailsChanges();"
+    (isPopupShouldBeHidden)="isTimeZonePickerVisible = false;">
+</edit-time-zone-popup>
+
+<sorana-toast-notification [visible]="isToastNotificationVisible" [content]="toastNotificationContent">
+</sorana-toast-notification>

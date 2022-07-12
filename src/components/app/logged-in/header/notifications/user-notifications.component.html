@@ -1,0 +1,49 @@
+<div id="notificationsPopover"
+    [ngStyle]="{'right': getWindowWidth() - notificationsButtonPosition + 15 + 'px', 'top': '25px'}">
+    <ng-component *ngIf="notifications && notifications.length > 0; then notificationsList; else noNotifications">
+    </ng-component>
+</div>
+
+<ng-template #notificationsList>
+    <div class="notification" *ngFor="let notification of notifications; index as index">
+        <div class="notification-date">
+            <p>{{momentBase(notification.userNotification.creationDate).format('LLL')}}</p>
+        </div>
+
+        <div class="notification-content">
+            <img [src]="notification.senderAvatar">
+            <div>
+                <p>{{notification.userNotification.message}}</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="notification-actions"
+            *ngIf="notification.userNotification.type === userNotificationTypeBase.FriendRequest">
+            <button class="btn button"
+                (click)="answerOnFriendRequest(true, notification.userNotification.id, index)">Accept</button>
+            <button class="btn button"
+                (click)="answerOnFriendRequest(false, notification.userNotification.id, index)">Decline</button>
+        </div>
+
+        <div class="notification-actions"
+            *ngIf="notification.userNotification.type === userNotificationTypeBase.Message
+                    || notification.userNotification.type == userNotificationTypeBase.SessionApprovement
+                    || notification.userNotification.type == userNotificationTypeBase.UpcomingSessionReminder">
+            <button class="btn button" (click)="deleteUserNotification(notification.userNotification.id)">Ok</button>
+        </div>
+
+        <div class="notification-actions"
+            *ngIf="notification.userNotification.type === userNotificationTypeBase.SessionInvitation">
+            <button class="btn button">Join</button>
+            <button class="btn button">Decline</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #noNotifications>
+    <div id="noNotifications">
+        <p>No notifications</p>
+    </div>
+</ng-template>

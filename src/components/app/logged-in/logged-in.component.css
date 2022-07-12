@@ -1,0 +1,27 @@
+#timeZoneWarningInfo, #selectedTimeZoneResult {
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+#timeZoneWarningInfo>h4 {
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+#timeZoneWarningInfo>p, #selectedTimeZoneResult>p {
+    margin: 0;
+}
+
+#timeZonePickerButtons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#timeZonePickerButtons>button {
+    width: 100px;
+}
+
+#timeZonePickerButtons>button>span {
+    font-weight: bold;
+}

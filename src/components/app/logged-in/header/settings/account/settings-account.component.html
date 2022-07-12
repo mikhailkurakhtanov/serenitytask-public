@@ -1,0 +1,159 @@
+<sorana-popup *ngIf="currentUser" [visible]="isAccountSettingsPopupVisible" [title]="'Account'" [width]="750"
+  [isCloseButtonVisible]="true" (isPopupShouldBeHidden)="refreshAccountSettings()">
+  <div class="container">
+    <div class="row">
+      <div id="accountSettingsMenu" class="col-sm text-center">
+        <div id="mainAccountSettingsMenuActions">
+          <div class="account-settings-menu-action" (click)="selectSection(accountSettingsSectionBase.Email)">
+            <fa-icon size="lg" [icon]="emailIcon" [ngStyle]="{'color': selectedSection === accountSettingsSectionBase.Email
+                          ? 'rgb(84,126,85)' : 'rgb(131,199,135)'}"></fa-icon>
+          </div>
+          <div class="account-settings-menu-action">
+            <fa-icon size="lg" [icon]="passwordIcon" (click)="selectSection(accountSettingsSectionBase.Password)"
+              [ngStyle]="{'color': selectedSection === accountSettingsSectionBase.Password
+                          ? 'rgb(84,126,85)' : 'rgb(131,199,135)'}"></fa-icon>
+          </div>
+          <div class="account-settings-menu-action">
+            <fa-icon size="lg" [icon]="integrationsIcon" (click)="selectSection(accountSettingsSectionBase.Google)"
+              [ngStyle]="{'color': selectedSection === accountSettingsSectionBase.Google
+                          ? 'rgb(84,126,85)' : 'rgb(131,199,135)'}">
+            </fa-icon>
+          </div>
+        </div>
+        <div id="additionalAccountSettingsMenuActions">
+          <fa-icon id="deletePersonalDataIcon" size="lg" [icon]="deletePersonalDataIcon"
+            (click)="selectSection(accountSettingsSectionBase.Delete)" [ngStyle]="{'color': selectedSection === accountSettingsSectionBase.Delete
+                        ? 'rgb(84,126,85)' : 'rgb(131,199,135)'}"></fa-icon>
+        </div>
+      </div>
+      <div id="accountSettingsContent" class="col-md">
+        <div *ngIf="selectedSection === accountSettingsSectionBase.Email">
+          <h3 class="text-center">Email</h3>
+
+          <div class="text-center settings-notification" *ngIf="emailNotification !== undefined"
+            [ngStyle]="{'background-color': emailNotification.result ? '#fff4e0' : '#d99a3d'}"
+            (click)="removeNotification(0)">
+            <p>{{emailNotification.message}}</p>
+          </div>
+
+          <div class="dx-fieldset">
+            <div class="dx-field">
+              <div class="dx-field-label account-settings-field-label">Current Email</div>
+              <div class="dx-field-value">
+                <dx-text-box [(value)]="currentUser.email" [disabled]="true"></dx-text-box>
+              </div>
+            </div>
+            <div class="dx-field">
+              <div class="dx-field-label account-settings-field-label">New Email</div>
+              <div id="newEmail" class="dx-field-value">
+                <dx-text-box [(value)]="newEmail" (onKeyUp)="validateNewEmail($event)"></dx-text-box>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button class="btn button" [disabled]="isEmailActionButtonDisabled"
+              (click)="changeEmail()">{{emailActionButtonValue}}</button>
+          </div>
+        </div>
+
+        <div *ngIf="selectedSection === accountSettingsSectionBase.Password">
+          <h3 class="text-center">Password</h3>
+          <div class="text-center settings-notification" *ngIf="newPasswordNotification !== undefined"
+            [ngStyle]="{'background-color': newPasswordNotification.result ? '#fff4e0' : '#d99a3d'}"
+            (click)="removeNotification(1)">
+            <p>{{newPasswordNotification.message}}</p>
+          </div>
+
+          <div class="account-settings-section-body">
+            <form autocomplete="off">
+              <div class="dx-fieldset">
+                <div class="dx-field">
+                  <div class="dx-field-label account-settings-field-label">New Password</div>
+                  <div id="newPassword" class="dx-field-value">
+                    <dx-text-box mode="password" [inputAttr]="{ autocomplete: 'new-password' }" [(value)]="newPassword"
+                      (onKeyUp)="validateNewPassword($event)"></dx-text-box>
+                  </div>
+                </div>
+                <div class="dx-field">
+                  <div class="dx-field-label account-settings-field-label">Confirmation</div>
+                  <div id="newPasswordConfirmation" class="dx-field-value">
+                    <dx-text-box mode="password" [inputAttr]="{ autocomplete: 'new-password' }"
+                      [(value)]="newPasswordConfirmation" (onKeyUp)="validateNewPasswordConfirmation($event)">
+                    </dx-text-box>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          </div>
+          <div class="text-center">
+            <button class="btn button" [disabled]="isPasswordActionButtonDisabled"
+              (click)="changePassword()">{{newPasswordActionButtonValue}}</button>
+          </div>
+        </div>
+
+        <div *ngIf="selectedSection === accountSettingsSectionBase.Google">
+          <h3 class="text-center" style="margin-bottom: 15px;">Integrations</h3>
+
+          <div style="display: flex; padding: 15px; align-items: center;">
+            <img style="height: 50px;" src="assets/img/authorized/settings/account/google_calendar.png">
+            <div style="padding: 0 15px 0 15px;">
+              <h5>Google Authorization and Calendar</h5>
+              <p>Login with Google Account.<br>Create events and reminders for focus sessions and tasks,
+                and display your data from Gooogle Calendar in SerenityTask Workspace</p>
+            </div>
+            <button class="btn button" [disabled]="isChangeGoogleIntergrationStateButtonDisabled"
+              (click)="currentUser.isGoogleCalendarConnected ? showGoogleIntegrationPopupWarning() : connectGoogleCalendar()">
+              {{googleIntegrationStateButtonValue}}
+            </button>
+
+            <sorana-simple-popup [title]="googleIntegrationPopupWarningTitle"
+              [content]="googleIntegrationPopupWarningContent" [visible]="isGoogleIntegrationPopupWarningVisible"
+              (isPopupShouldBeHidden)="isGoogleIntegrationPopupWarningVisible = false;"
+              (result)="disconnectGoogleCalendar($event)">
+            </sorana-simple-popup>
+
+            <sorana-toast-notification [content]="googleConnectionNotificationContent"
+              [visible]="isGoogleConnectionNotificationVisible"></sorana-toast-notification>
+          </div>
+        </div>
+
+        <div *ngIf="selectedSection === accountSettingsSectionBase.Delete">
+          <div class="text-center">
+            <h3>Delete Account</h3>
+            <p>This action will permanently delete all your data</p>
+            <form autocomplete="off">
+              <div class="dx-fieldset">
+                <div class="dx-field">
+                  <div class="dx-field-label account-settings-field-label">Current Password</div>
+                  <div id="currentPassword" class="dx-field-value">
+                    <dx-text-box mode="password" [(value)]="currentPassword"
+                      [inputAttr]="{ autocomplete: 'new-password' }" (onKeyUp)="validateCurrentPassword($event)">
+                    </dx-text-box>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="text-center">
+              <button class="btn button" [disabled]="isDeleteAccountActionButtonDisabled"
+                (click)="deleteAccount()">{{deleteAccountButtonValue}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</sorana-popup>
+
+<dx-tooltip target="#newEmail" position="right" [(visible)]="isEmailErrorVisible">
+  <p class="tooltip-content">{{emailError}}</p>
+</dx-tooltip>
+<dx-tooltip target="#newPassword" position="right" [(visible)]="isPasswordErrorVisible">
+  <p class="tooltip-content">{{newPasswordError}}</p>
+</dx-tooltip>
+<dx-tooltip target="#newPasswordConfirmation" position="right" [(visible)]="isNewPasswordConfirmationErrorVisible">
+  <p class="tooltip-content">{{newPasswordConfirmationError}}</p>
+</dx-tooltip>
+<dx-tooltip target="#currentPassword" position="right" [(visible)]="isCurrentPasswordErrorVisible">
+  <p class="tooltip-content">{{currentPasswordError}}</p>
+</dx-tooltip>

@@ -1,0 +1,114 @@
+<sorana-popup [visible]="isRegisterFormVisible" [isTitleVisible]="false" [isCloseButtonVisible]="false"
+  [isCloseOutsideClickAvailable]="true" [width]="windowWidth < 1000 ? 300 : 380"
+  (isPopupShouldBeHidden)="closeRegisterForm(); resetRegisterModel();">
+  <div class="register-form">
+    <div>
+      <img src="assets/img/leaf.png" class="form-header-icon">
+      <h3>Start planting</h3>
+    </div>
+
+    <div>
+      <input class="register-form-name text-field" name="registerFormName" placeholder="Name"
+        [(ngModel)]="registerModel.name" (ngModelChange)="validateName()">
+
+      <p [hidden]="!showNameError || windowWidth > 1000" class="field-error-mobile">Name is required</p>
+      <dx-tooltip target=".register-form-name" position="right" [visible]="showNameError && windowWidth > 1000"
+        [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content">Name is required</p>
+      </dx-tooltip>
+
+      <input class="register-form-username text-field" name="registerFormUsername" placeholder="Username" type="text"
+        [(ngModel)]="registerModel.username" (ngModelChange)="validateUsername()">
+
+      <p class="field-error-mobile" [hidden]="!showUsernameError || windowWidth > 1000" [innerText]="usernameError"></p>
+      <dx-tooltip target=".register-form-username" position="left" [visible]="showUsernameError && windowWidth > 1000"
+        [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content" [innerText]="usernameError"></p>
+      </dx-tooltip>
+
+      <input name="registerFormEmail" class="register-form-email text-field" type="text" placeholder="Email"
+        autocomplete="off" [(ngModel)]="registerModel.email" (ngModelChange)="validateEmail()">
+
+      <p class="field-error-mobile" [hidden]="!showEmailError || windowWidth > 1000" [innerText]="emailError"></p>
+      <dx-tooltip target=".register-form-email" position="right" [visible]="showEmailError && windowWidth > 1000"
+        [closeOnOutsideClick]="true">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content" [innerText]="emailError"></p>
+      </dx-tooltip>
+
+      <input name="registerFormPassword" class="register-form-password text-field" type="password"
+        placeholder="Password" autocomplete="off" [(ngModel)]="registerModel.password"
+        (ngModelChange)="validatePassword()">
+
+      <p class="field-error-mobile" [hidden]="!showPasswordError || windowWidth > 1000" [innerText]="passwordError"></p>
+      <dx-tooltip target=".register-form-password" position="left" [visible]="showPasswordError && windowWidth > 1000"
+        [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content" [innerText]="passwordError"></p>
+      </dx-tooltip>
+
+      <input name="registerFormPasswordConfirmation" class="register-form-password-confirmation text-field"
+        type="password" placeholder="Password Confirmation" autocomplete="off"
+        [(ngModel)]="registerModel.passwordConfirmation" (ngModelChange)="validatePasswordConfirmation()">
+
+      <p class="field-error-mobile" [hidden]="!showPasswordConfirmationError || windowWidth > 1000">Passwords are not
+        match</p>
+      <dx-tooltip target=".register-form-password-confirmation" position="right"
+        [visible]="showPasswordConfirmationError && windowWidth > 1000" [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content">Passwords are not match</p>
+      </dx-tooltip>
+
+      <div class="form-check">
+        <input name="registerFormAgreement" class="register-form-agreement form-check-input" type="checkbox"
+          [disabled]="true" [(ngModel)]="registerModel.areContentsAgreed">
+        <label>I agree with <span (click)="showTermsAndConditionsForm()">Terms and Conditions</span></label>
+      </div>
+
+      <p class="field-error-mobile" [hidden]="!showContentsAgreementError || windowWidth > 1000">You have to read and
+        accept it</p>
+      <dx-tooltip target=".register-form-agreement" position="left"
+        [visible]="showContentsAgreementError && windowWidth > 1000" [closeOnOutsideClick]="false">
+        <dxo-animation>
+          <dxo-show type="fade" [from]="0" [to]="1"></dxo-show>
+          <dxo-hide type="fade" [from]="1" [to]="0"></dxo-hide>
+        </dxo-animation>
+        <p class="popup-content">You have to read and accept it</p>
+      </dx-tooltip>
+    </div>
+
+    <div id="registerOptions" #registerOptions>
+      <button class="btn button d-block w-100" [disabled]="isButtonDisabled"
+        [@changeRegisterButtonState]="playRegisterButtonAnimation" (click)="register()"
+        (mousedown)="playRegisterButtonAnimation = true;" (mouseup)="playRegisterButtonAnimation = false;"
+        (mouseleave)="playRegisterButtonAnimation = false;">{{buttonName}}</button>
+
+      <button class="btn button" (click)="registerWithGoogle()">G</button>
+    </div>
+  </div>
+</sorana-popup>
+
+<popup-tac [isTermsAndConditionsFormVisible]="isTermsAndConditionsFormVisible"
+  (isTermsAndConditionsFormShouldBeHidden)="hideTermsAndConditionsPopup()"
+  (areTermsAndConditionsAgreed)="changeConditionsAgreementResult($event)"></popup-tac>
+
+<popup-register-result [createdUserEmail]="createdUserEmail"
+  [isRegisterResultPopupVisible]="isRegisterResultPopupVisible" (isRegisterFormShouldBeHidden)="closeRegisterForm()">
+</popup-register-result>

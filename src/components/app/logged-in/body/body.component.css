@@ -1,0 +1,111 @@
+div:first-of-type.container {
+    padding-bottom: 75px;
+}
+
+menu {
+    margin: 0;
+    padding: 0;
+}
+
+.authorized-content {
+    height: auto;
+}
+
+#workspaceMenu {
+    margin-top: 25px;
+    width: 20%;
+}
+
+#workspaceMenuEnabler {
+    width: auto;
+}
+
+#workspaceMenuEnabler>fa-icon {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    transition: 0.25s ease-in;
+}
+
+#calendarAndTasksColumn {
+    margin-right: 15px;
+    margin-left: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#plantColumn {
+    width: 20%;
+    padding-top: 53px;
+}
+
+#mobileMenu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #83c787;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 0 5px #94c598;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#mobileMenu>button:last-of-type {
+    margin-right: 0;
+}
+
+#mobileMenu>div {
+    cursor: pointer !important;
+    display: grid;
+    margin-right: 15px;
+    padding: 0;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#mobileMenu>div>fa-icon {
+    padding: 2px !important;
+    margin: 0 10px;
+}
+
+#mobileMenu>div>fa-icon.not-selected-item {
+    color: white !important;
+}
+
+#mobileMenu>div>fa-icon.selected-item {
+    color: #83c787;
+    background: white;
+    border-radius: 10px;
+}
+
+#mobileMenu>div>span {
+    font-size: 14px;
+    color: #fff;
+}
+
+#mobileMenuTaskMenu {
+    position: absolute;
+    background: white;
+    border-radius: 15px;
+    box-shadow: #c8c8c8 0 0 15px 2px;
+    padding: 15px;
+    width: 250px;
+    left: 25px;
+    bottom: 85px;
+}
+
+@media all and (max-width: 1000px) {
+    #plantColumn {
+        width: 100%;
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+
+    #plantColumn {
+        padding-top: 15px
+    }
+}
